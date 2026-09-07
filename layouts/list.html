@@ -1,0 +1,17 @@
+{{ define "main" }}
+  <h2>{{ .Title }}</h2>
+  {{ with or .Params.note (T "blog_note") }}<p class="note">{{ . }}</p>{{ end }}
+  <div class="post-list">
+    {{ $pages := .RegularPages }}
+    {{ if not $pages }}
+      <p class="note">{{ T "blog_empty" }}</p>
+    {{ end }}
+    {{ range $pages }}
+    <div class="post-item">
+      <div class="pdate">{{ .Date.Format "2006-01-02" }}</div>
+      <div class="ptitle"><a href="{{ .RelPermalink }}">{{ .Title }}</a></div>
+      {{ with .Params.summary }}<p class="pexcerpt">{{ . }}</p>{{ else }}{{ with .Summary }}<p class="pexcerpt">{{ . | plainify | truncate 160 }}</p>{{ end }}{{ end }}
+    </div>
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,9 @@
+{{ $src := .Get "src" | relURL }}
+{{ $alt := or (.Get "alt") "" }}
+{{ $cap := .Get "caption" }}
+{{ $ph := site.Params.figurePlaceholder | relURL }}
+<figure>
+  <img src="{{ $src }}" alt="{{ $alt }}"
+       onerror="this.onerror=null;this.src='{{ $ph }}';">
+  {{ with $cap }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>

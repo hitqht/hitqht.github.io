@@ -1,0 +1,74 @@
+# 照片放 static/media/team/<photo>；没有真人照片时显示 _placeholder.svg。
+# 新增成员：复制一条，改 id / 中英姓名职务简介 / photo 文件名。
+
+- id: shan-wenchen
+  name_zh: 单文臣
+  name_en: Shan Wenchen
+  role_zh: 副教授
+  role_en: Associate Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: shan-wenchen.jpg
+
+- id: ding-yao
+  name_zh: 丁尧
+  name_en: Ding Yao
+  role_zh: 教授
+  role_en: Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: ding-yao.jpg
+
+- id: xia-yi
+  name_zh: 夏毅
+  name_en: Xia Yi
+  role_zh: 教授
+  role_en: Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: xia-yi.jpg
+
+- id: zhou-junwen
+  name_zh: 周俊文
+  name_en: Zhou Junwen
+  role_zh: 副教授
+  role_en: Associate Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: zhou-junwen.jpg
+
+- id: xu-chengran
+  name_zh: 许成然
+  name_en: Xu Chengran
+  role_zh: 副教授
+  role_en: Associate Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: xu-chengran.jpg
+
+- id: li-dongsheng
+  name_zh: 李东声
+  name_en: Li Dongsheng
+  role_zh: 副教授
+  role_en: Associate Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: li-dongsheng.jpg
+
+- id: du-heli
+  name_zh: 杜和醨
+  name_en: Du Heli
+  role_zh: 正高级工程师
+  role_en: Professor-level Senior Engineer
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: du-heli.jpg
+
+- id: yin-hang
+  name_zh: 尹航
+  name_en: Yin Hang
+  role_zh: 副教授
+  role_en: Associate Professor
+  bio_zh: 研究方向与简介待补充。
+  bio_en: Research interests to be added.
+  photo: yin-hang.jpg

@@ -1,0 +1,41 @@
+home: Home
+bio: Biography
+keywords: Research keywords
+contact: Contact
+affiliation_label: Affiliation
+email_label: E-mail
+team: People
+publications: Publications
+publications_heading: Selected papers
+publications_note: 25 SCI papers as first or corresponding author in the past three years; a selection is listed below (* corresponding author). Click a citation to open the publisher page (DOI).
+books: Books
+books_heading: Books and textbooks
+books_note: Three scholarly monographs and one textbook.
+awards: Awards
+awards_heading: Honors and awards
+awards_note: Two provincial/ministerial science and technology awards, among others.
+research: Research
+projects: Projects
+projects_note: PI of national projects including a National Key R&D Program topic and NSFC grants.
+cv: CV
+education: Education
+experience: Appointments
+licenses: Professional credentials
+blog: Blog
+blog_note: Lab notes, paper highlights, and project updates.
+blog_empty: No posts in English yet. Switch to 中文 for the Chinese notes, or check back later.
+back_to_blog: Back to blog
+lang_zh: 中文
+lang_en: English
+not_translated: This page is not available in this language; you are on the language home page.
+footer: "© {year} Qi Hongtuo · School of Civil Engineering, Chongqing University · E-mail:"
+tile_team: People
+tile_pubs: Papers
+tile_books: Books
+tile_research: Projects
+tile_awards: Awards
+tile_blog: Blog
+video_missing: Video placeholder — add an mp4 under static/media/blog/ and refresh.
+page_404_title: Page not found
+page_404_body: This link may have moved. Try the home page, publications, or blog.
+page_404_home: Back to home

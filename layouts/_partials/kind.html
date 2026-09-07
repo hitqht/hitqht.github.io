@@ -1,0 +1,115 @@
+{{ $lang := site.Language.Lang }}
+{{ $selfZh := site.Params.authorZh }}
+{{ $selfEn := site.Params.authorEn }}
+{{ $ph := site.Params.teamPlaceholder | relURL }}
+
+{{ if eq .Params.kind "publications" }}
+  {{ $note := or .Params.note (T "publications_note") }}
+  <p class="note">{{ $note }}</p>
+  <table class="pubs">
+    {{ range hugo.Data.publications }}
+    {{ $full := or .title_full .title }}
+    {{ $au := .authors }}
+    {{ if not (strings.HasSuffix $au ".") }}{{ $au = printf "%s." $au }}{{ end }}
+    {{ $cite := printf "%s %s. <i>%s</i>, %s." $au $full .journal .rest }}
+    <tr>
+      <td class="ptitle">{{ .title }}</td>
+      <td class="pcite">
+        {{ if .doi }}
+        <a href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">{{ $cite | safeHTML }}</a>
+        {{ else }}
+        {{ $cite | safeHTML }}
+        {{ end }}
+      </td>
+    </tr>
+    {{ end }}
+  </table>
+  {{ $ld := slice }}
+  {{ range hugo.Data.publications }}
+    {{ $ld = $ld | append (dict
+      "@context" "https://schema.org"
+      "@type" "ScholarlyArticle"
+      "headline" .title
+      "author" .authors
+      "datePublished" (printf "%d" .year)
+      "identifier" (printf "https://doi.org/%s" .doi)
+      "url" (printf "https://doi.org/%s" .doi)
+    ) }}
+  {{ end }}
+  <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+
+{{ else if eq .Params.kind "team" }}
+  <div class="team-grid">
+    {{ range hugo.Data.team }}
+    {{ $name := cond (eq $lang "zh") .name_zh .name_en }}
+    {{ $role := cond (eq $lang "zh") .role_zh .role_en }}
+    {{ $bio := cond (eq $lang "zh") .bio_zh .bio_en }}
+    {{ $src := printf "media/team/%s" .photo | relURL }}
+    <div class="member-card">
+      <img src="{{ $src }}" alt="{{ $name }}"
+           onerror="this.onerror=null;this.src='{{ $ph }}';">
+      <div class="mname">{{ $name }}</div>
+      <div class="mrole">{{ $role }}</div>
+      <p class="mbio">{{ $bio }}</p>
+    </div>
+    {{ end }}
+  </div>
+
+{{ else if eq .Params.kind "books" }}
+  {{ with or .Params.note (T "books_note") }}<p class="note">{{ . }}</p>{{ end }}
+  <ol class="list">
+    {{ range hugo.Data.books }}
+    {{ $authors := cond (eq $lang "zh") .authors_zh .authors_en }}
+    {{ $self := cond (eq $lang "zh") $selfZh $selfEn }}
+    {{ $title := cond (eq $lang "zh") .title_zh .title_en }}
+    {{ $pub := cond (eq $lang "zh") .publisher_zh .publisher_en }}
+    {{ $authorsH := replace $authors $self (printf "<u>%s</u>" $self) }}
+    <li>{{ $authorsH | safeHTML }}{{ if eq $lang "zh" }}. 《{{ $title }}》，{{ $pub }}，{{ .year }}.{{ else }}. <i>{{ $title }}</i>, {{ $pub }}, {{ .year }}.{{ end }}</li>
+    {{ end }}
+  </ol>
+
+{{ else if eq .Params.kind "awards" }}
+  {{ with or .Params.note (T "awards_note") }}<p class="note">{{ . }}</p>{{ end }}
+  <ol class="list">
+    {{ range hugo.Data.awards }}
+    <li>{{ cond (eq $lang "zh") .zh .en | safeHTML }}</li>
+    {{ end }}
+  </ol>
+
+{{ else if eq .Params.kind "research" }}
+  {{ .Content }}
+  <h2>{{ T "projects" }}</h2>
+  {{ with or .Params.projects_note (T "projects_note") }}<p class="note">{{ . }}</p>{{ end }}
+  <table class="info">
+    {{ range hugo.Data.projects }}
+    <tr>
+      <td class="when">{{ cond (eq $lang "zh") .when_zh .when_en }}</td>
+      <td>{{ cond (eq $lang "zh") .text_zh .text_en | safeHTML }}</td>
+    </tr>
+    {{ end }}
+  </table>
+
+{{ else if eq .Params.kind "cv" }}
+  <h2>{{ T "education" }}</h2>
+  <table class="info">
+    {{ range hugo.Data.cv.education }}
+    <tr><td class="when">{{ .when }}</td><td>{{ cond (eq $lang "zh") .zh .en }}</td></tr>
+    {{ end }}
+  </table>
+  <h2 style="margin-top:40px">{{ T "experience" }}</h2>
+  <table class="info">
+    {{ range hugo.Data.cv.experience }}
+    <tr>
+      <td class="when">{{ cond (eq $lang "zh") .when_zh .when_en }}</td>
+      <td>{{ cond (eq $lang "zh") .zh .en }}</td>
+    </tr>
+    {{ end }}
+  </table>
+  <h2 style="margin-top:40px">{{ T "licenses" }}</h2>
+  <ol class="list">
+    {{ range hugo.Data.cv.licenses }}
+    <li>{{ cond (eq $lang "zh") .zh .en }}</li>
+    {{ end }}
+  </ol>
+
+{{ end }}

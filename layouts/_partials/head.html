@@ -1,0 +1,41 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ if .IsHome }}{{ T "home" }} | {{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+{{ $desc := or .Description .Params.description .Site.Params.description }}
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ $xd := "" }}
+{{ range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+{{ if eq .Language.Lang "zh" }}{{ $xd = .Permalink }}{{ end }}
+{{ end }}
+{{ if not $xd }}
+  {{ range hugo.Sites }}{{ if eq .Language.Lang "zh" }}{{ $xd = .Home.Permalink }}{{ end }}{{ end }}
+{{ end }}
+<link rel="alternate" hreflang="x-default" href="{{ $xd }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="{{ if eq .Site.Language.Lang "zh" }}zh_CN{{ else }}en_US{{ end }}">
+{{ range .AllTranslations }}
+  {{ if ne .Language.Lang $.Site.Language.Lang }}
+<meta property="og:locale:alternate" content="{{ if eq .Language.Lang "zh" }}zh_CN{{ else }}en_US{{ end }}">
+  {{ end }}
+{{ end }}
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+{{ if .IsHome }}
+{{ $job := cond (eq site.Language.Lang "zh") "特聘研究员" "Distinguished Research Fellow" }}
+{{ $person := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" site.Params.authorZh
+  "alternateName" site.Params.authorEn
+  "url" site.BaseURL
+  "email" (printf "mailto:%s" site.Params.email)
+  "jobTitle" $job
+  "affiliation" (dict "@type" "CollegeOrUniversity" "name" site.Params.affiliation)
+}}
+<script type="application/ld+json">{{ $person | jsonify | safeJS }}</script>
+{{ end }}

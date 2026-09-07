@@ -1,0 +1,33 @@
+{{ define "main" }}
+  <h2>{{ T "bio" }}</h2>
+  <img class="profile-photo"
+       src="{{ site.Params.portrait | relURL }}"
+       alt="{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}"
+       onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
+  {{ .Content }}
+  <div class="tiles">
+    {{ with site.GetPage "/team" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">👥</div><div class="name">{{ T "tile_team" }}</div></a>
+    {{ end }}
+    {{ with site.GetPage "/publications" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">📄</div><div class="name">{{ T "tile_pubs" }}</div></a>
+    {{ end }}
+    {{ with site.GetPage "/books" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">📚</div><div class="name">{{ T "tile_books" }}</div></a>
+    {{ end }}
+    {{ with site.GetPage "/research" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">🔬</div><div class="name">{{ T "tile_research" }}</div></a>
+    {{ end }}
+    {{ with site.GetPage "/awards" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">🏆</div><div class="name">{{ T "tile_awards" }}</div></a>
+    {{ end }}
+    {{ with site.GetPage "/blog" }}
+    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">✍️</div><div class="name">{{ T "tile_blog" }}</div></a>
+    {{ end }}
+  </div>
+  <h3>{{ T "contact" }}</h3>
+  <p>
+    {{ T "affiliation_label" }}{{ if eq site.Language.Lang "zh" }}：{{ else }}: {{ end }}{{ site.Params.affiliation }}<br>
+    {{ T "email_label" }}{{ if eq site.Language.Lang "zh" }}：{{ else }}: {{ end }}<a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+  </p>
+{{ end }}

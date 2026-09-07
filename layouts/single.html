@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <article class="post">
+    <h2>{{ .Title }}</h2>
+    <div class="pmeta">
+      {{ .Date.Format "2006-01-02" }}
+      · {{ site.Params.brand }}
+      · <a href="{{ with site.GetPage "/blog" }}{{ .RelPermalink }}{{ end }}">← {{ T "back_to_blog" }}</a>
+    </div>
+    {{ .Content }}
+  </article>
+{{ end }}

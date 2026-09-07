@@ -1,0 +1,103 @@
+# 左列标题用 title；引用里的题目默认与 title 相同，若更长则填 title_full。
+# 新增论文：复制一条，改 title / authors / journal / rest / doi / year。
+
+- title: Dual-branch networks with texture-guided feature enhancement for intelligent recognition of concrete surface quality defects
+  authors: Wang Yu, Qi Hongtuo*, Liu Jiepeng, et al.
+  journal: Journal of Building Engineering
+  rest: "2025: 114105"
+  doi: 10.1016/j.jobe.2025.114105
+  year: 2025
+
+- title: Controllable and flexible residential floor plan layout design based on multi-agent deep reinforcement learning
+  title_full: Controllable and flexible residential floor plan layout design based on multi-agent deep reinforcement learning with layout prior size and similar experience abandon
+  authors: Luo Gan, Zhou Xuhong, Feng Liang, Liu Jiepeng, Liu Pengkun, Liao Yunzhu, Shan Wenchen, Qi Hongtuo*
+  journal: Advanced Engineering Informatics
+  rest: "2025, 68: 103702"
+  doi: 10.1016/j.aei.2025.103702
+  year: 2025
+
+- title: Generative design of steel-prestressed concrete hybrid wind turbine tower based on machine learning and multi-objective optimization
+  authors: Cheng Yu, Liu Jiepeng, Qi Hongtuo*, et al.
+  journal: Engineering Structures
+  rest: "2025, 341: 120835"
+  doi: 10.1016/j.engstruct.2025.120835
+  year: 2025
+
+- title: Automated aggregation of dwelling units and traffic cores in high-rise residential floor plans using genetic algorithm and multi-agent cooperative deep Q-network
+  authors: Zhou Xuhong, Luo Gan, Liao Yunzhu, Feng Liang, Liu Jiepeng, Qi Hongtuo*, Li Kehong
+  journal: Automation in Construction
+  rest: "2025, 177: 106329"
+  doi: 10.1016/j.autcon.2025.106329
+  year: 2025
+
+- title: Intelligent design of shear wall structures based on BIM and multi-objective genetic algorithm
+  authors: Hu Jiahao, Zhou Xuhong, Liu Jiepeng, Shan Wenchen, Qi Hongtuo*, Chen Wei, Zhang Yongjun
+  journal: Journal of Building Engineering
+  rest: "2025, 104: 112284"
+  doi: 10.1016/j.jobe.2025.112284
+  year: 2025
+
+- title: Deep learning-assisted automatic quality assessment of concrete surfaces with cracks and bugholes
+  authors: Liu Jiepeng, Yang Zhengtao, Qi Hongtuo*, Jiao Tong, Li Dongsheng, Wu Zhou, Zheng Nina, Xu Shaoqian
+  journal: Advanced Engineering Informatics
+  rest: "2024, 62: 102577"
+  doi: 10.1016/j.aei.2024.102577
+  year: 2024
+
+- title: Interlayer bonding performance of 3D printed engineered cementitious composites (ECC)
+  title_full: "Interlayer bonding performance of 3D printed engineered cementitious composites (ECC): Rheological regulation and fiber hybridization"
+  authors: Ding Yao, Ou Xingjian, Qi Hongtuo*, Xiong Gang, Nishiwaki Tomoya, Liu Yifan, Liu Jiepeng
+  journal: Cement and Concrete Composites
+  rest: "2024, 154: 105805"
+  doi: 10.1016/j.cemconcomp.2024.105805
+  year: 2024
+
+- title: Intelligent optimal design of steel-concrete hybrid wind turbine tower based on evolutionary algorithm
+  authors: Cheng Yu, Zhao Yannan, Qi Hongtuo*, Zhou Xuhong
+  journal: Journal of Constructional Steel Research
+  rest: "2024, 218: 108729"
+  doi: 10.1016/j.jcsr.2024.108729
+  year: 2024
+
+- title: A population-based DNN-augmented optimization method for designing truss structures
+  authors: Xia Yi, Liu Jiepeng, Qi Hongtuo*
+  journal: Swarm and Evolutionary Computation
+  rest: "2024, 89: 101613"
+  doi: 10.1016/j.swevo.2024.101613
+  year: 2024
+
+- title: Graph-based BIM generation method for integrated design of steel modular buildings
+  authors: Xia Yi, Liu Jiepeng, Qi Hongtuo*, Wang Liqiang, Li Jiachen, Feng Liang
+  journal: Journal of Building Engineering
+  rest: "2025, 106: 112476"
+  doi: 10.1016/j.jobe.2025.112476
+  year: 2025
+
+- title: Flexural properties of fiber-reinforced alkali slag-red mud geopolymer
+  authors: Yin Hang, Liu Jiepeng, Zhou Xuhong, Qi Hongtuo*, Liu Shuxian, Pan Shuai
+  journal: Construction and Building Materials
+  rest: "2023, 370: 130708"
+  doi: 10.1016/j.conbuildmat.2023.130708
+  year: 2023
+
+- title: Towards automatic flatness quality assessment for building indoor acceptance via terrestrial laser scanning
+  authors: Cao Yuxing, Liu Jiepeng, Feng Shenqiang, Li Dongsheng, Zhang Sheng, Qi Hongtuo*, Cheng Guozong, Chen Y. Frank
+  journal: Measurement
+  rest: "2022, 203: 111862"
+  doi: 10.1016/j.measurement.2022.111862
+  year: 2022
+
+- title: Automated clash resolution for reinforcement steel design in precast concrete wall panels via GAN and reinforcement learning
+  title_full: Automated clash resolution for reinforcement steel design in precast concrete wall panels via generative adversarial network and reinforcement learning
+  authors: Liu Pengkun, Qi Hongtuo*, Liu Jiepeng, Feng Liang, Li Dongsheng, Guo Jingjing
+  journal: Advanced Engineering Informatics
+  rest: "2023, 58: 102131"
+  doi: 10.1016/j.aei.2023.102131
+  year: 2023
+
+- title: Automatic defect localization method based on BIM projected image
+  authors: Xu Lei, Feng Xiaoyu, Liu Jiepeng, Qi Hongtuo*, Wang Yu
+  journal: Advanced Engineering Informatics
+  rest: "2026, 69: 103874"
+  doi: 10.1016/j.aei.2025.103874
+  year: 2026

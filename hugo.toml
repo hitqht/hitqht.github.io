@@ -1,0 +1,138 @@
+baseURL = "https://hitqht.github.io/"
+title = "齐宏拓课题组"
+enableRobotsTXT = true
+enableGitInfo = true
+canonifyURLs = false
+defaultContentLanguage = "zh"
+defaultContentLanguageInSubdir = false
+hasCJKLanguage = true
+summaryLength = 80
+disableKinds = ["taxonomy", "term"]
+
+[pagination]
+  pagerSize = 20
+
+[params]
+  email = "hitqht@163.com"
+  authorZh = "齐宏拓"
+  authorEn = "Qi Hongtuo"
+  orcid = ""
+  scholar = ""
+  portrait = "media/misc/qihongtuo.jpg"
+  portraitFallback = "media/misc/_portrait.svg"
+  teamPlaceholder = "media/team/_placeholder.svg"
+  figurePlaceholder = "media/blog/_figure.svg"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[minify]
+  minifyOutput = true
+
+[languages.zh]
+  locale = "zh-CN"
+  label = "中文"
+  contentDir = "content/zh"
+  weight = 1
+  title = "齐宏拓课题组"
+  [languages.zh.params]
+    brand = "齐宏拓课题组"
+    tagline = "智能建造 · Intelligent Construction  |  重庆大学土木工程学院"
+    affiliation = "重庆大学土木工程学院"
+    description = "齐宏拓，重庆大学土木工程学院特聘研究员：装配式建筑、智能设计、智能检测、建造机器人、建造领域垂类大模型。"
+
+[languages.en]
+  locale = "en"
+  label = "English"
+  contentDir = "content/en"
+  weight = 2
+  title = "Qi Hongtuo Lab"
+  [languages.en.params]
+    brand = "Qi Hongtuo Lab"
+    tagline = "Intelligent Construction  |  School of Civil Engineering, Chongqing University"
+    affiliation = "School of Civil Engineering, Chongqing University"
+    description = "Qi Hongtuo, Distinguished Research Fellow at Chongqing University: prefabricated construction, intelligent design, intelligent inspection, construction robotics, and domain-specific LLMs for construction."
+
+# ---------- 中文导航 ----------
+[[languages.zh.menus.main]]
+  identifier = "home"
+  name = "主页"
+  pageRef = "/"
+  weight = 1
+[[languages.zh.menus.main]]
+  identifier = "research"
+  name = "研究方向"
+  pageRef = "/research"
+  weight = 2
+[[languages.zh.menus.main]]
+  identifier = "team"
+  name = "团队成员"
+  pageRef = "/team"
+  weight = 3
+[[languages.zh.menus.main]]
+  identifier = "publications"
+  name = "发表论文"
+  pageRef = "/publications"
+  weight = 4
+[[languages.zh.menus.main]]
+  identifier = "books"
+  name = "学术专著"
+  pageRef = "/books"
+  weight = 5
+[[languages.zh.menus.main]]
+  identifier = "awards"
+  name = "奖励荣誉"
+  pageRef = "/awards"
+  weight = 6
+[[languages.zh.menus.main]]
+  identifier = "blog"
+  name = "博客"
+  pageRef = "/blog"
+  weight = 7
+[[languages.zh.menus.main]]
+  identifier = "cv"
+  name = "个人履历"
+  pageRef = "/cv"
+  weight = 8
+
+# ---------- English nav ----------
+[[languages.en.menus.main]]
+  identifier = "home"
+  name = "Home"
+  pageRef = "/"
+  weight = 1
+[[languages.en.menus.main]]
+  identifier = "research"
+  name = "Research"
+  pageRef = "/research"
+  weight = 2
+[[languages.en.menus.main]]
+  identifier = "team"
+  name = "People"
+  pageRef = "/team"
+  weight = 3
+[[languages.en.menus.main]]
+  identifier = "publications"
+  name = "Publications"
+  pageRef = "/publications"
+  weight = 4
+[[languages.en.menus.main]]
+  identifier = "books"
+  name = "Books"
+  pageRef = "/books"
+  weight = 5
+[[languages.en.menus.main]]
+  identifier = "awards"
+  name = "Awards"
+  pageRef = "/awards"
+  weight = 6
+[[languages.en.menus.main]]
+  identifier = "blog"
+  name = "Blog"
+  pageRef = "/blog"
+  weight = 7
+[[languages.en.menus.main]]
+  identifier = "cv"
+  name = "CV"
+  pageRef = "/cv"
+  weight = 8

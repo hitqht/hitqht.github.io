@@ -1,0 +1,41 @@
+home: 主页
+bio: 个人简介
+keywords: 研究关键词
+contact: 联系方式
+affiliation_label: 单位
+email_label: E-mail
+team: 团队成员
+publications: 发表论文
+publications_heading: 代表性论文
+publications_note: 近三年以第一/通讯作者发表 SCI 论文 25 篇，以下为部分代表性论文（* 为通讯作者）。点击右侧引用可跳转至出版方页面（DOI）。
+books: 学术专著
+books_heading: 学术专著与教材
+books_note: 出版学术专著 3 部、教材 1 部。
+awards: 奖励荣誉
+awards_heading: 科技奖励
+awards_note: 获省部级科技奖励 2 项。
+research: 研究方向
+projects: 科研项目
+projects_note: 主持国家重点研发计划课题、国家自然科学基金项目等国家级项目 3 项。
+cv: 个人履历
+education: 教育背景
+experience: 工作经历
+licenses: 执业资格
+blog: 博客
+blog_note: 课题组动态、研究札记与科普文章。
+blog_empty: 暂无文章。
+back_to_blog: 返回博客列表
+lang_zh: 中文
+lang_en: English
+not_translated: 该页暂无对应语言，已返回该语言首页。
+footer: "© {year} 齐宏拓 · 重庆大学土木工程学院 · E-mail:"
+tile_team: 团队成员
+tile_pubs: 发表论文
+tile_books: 学术专著
+tile_research: 科研项目
+tile_awards: 奖励荣誉
+tile_blog: 博客
+video_missing: 视频占位：请将 mp4 文件放入 static/media/blog/ 后刷新页面。
+page_404_title: 页面不存在
+page_404_body: 链接可能已更新。请从首页进入，或查看发表论文与博客。
+page_404_home: 返回首页

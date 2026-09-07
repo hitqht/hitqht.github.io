@@ -1,0 +1,5 @@
+{{ $src := .Get "src" | relURL }}
+<video controls preload="none" src="{{ $src }}"
+       onerror="this.style.display='none';var t=this.nextElementSibling;if(t)t.style.display='block';">
+</video>
+<p class="note video-tip">{{ T "video_missing" }}</p>

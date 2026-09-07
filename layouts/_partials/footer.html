@@ -1,0 +1,10 @@
+<footer>
+  <div class="inner">
+    {{ if eq .Site.Language.Lang "zh" }}
+      © {{ now.Year }} 齐宏拓 · {{ .Site.Params.affiliation }} · E-mail:
+    {{ else }}
+      © {{ now.Year }} Qi Hongtuo · {{ .Site.Params.affiliation }} · E-mail:
+    {{ end }}
+    <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+  </div>
+</footer>

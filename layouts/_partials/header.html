@@ -1,0 +1,34 @@
+{{ $hasPhoto := fileExists "static/media/misc/banner.jpg" }}
+<header class="banner{{ if $hasPhoto }} has-photo{{ end }}">
+  <svg class="skyline" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#ffffff" d="M0,200 L0,120 L60,120 L60,60 L110,60 L110,140 L170,140 L170,30 L230,30 L230,100 L290,100 L290,150 L350,150 L350,80 L420,80 L420,20 L470,20 L470,120 L540,120 L540,90 L600,90 L600,40 L660,40 L660,130 L730,130 L730,70 L800,70 L800,150 L860,150 L860,50 L930,50 L930,110 L990,110 L990,160 L1060,160 L1060,85 L1130,85 L1130,130 L1200,130 L1200,200 Z"/>
+  </svg>
+  <div class="banner-text">
+    <p class="brand">{{ or .Params.brand .Site.Params.brand }}</p>
+    <p class="tagline">{{ or .Params.tagline .Site.Params.tagline }}</p>
+  </div>
+</header>
+<nav>
+  <div class="nav-inner">
+    <ul>
+      {{ range site.Menus.main }}
+      <li><a href="{{ .URL }}"{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }} class="active"{{ end }}>{{ .Name }}</a></li>
+      {{ end }}
+    </ul>
+    <div class="lang-switch" aria-label="Language">
+      {{ $zhHome := "" }}{{ $enHome := "" }}
+      {{ range hugo.Sites }}
+        {{ if eq .Language.Lang "zh" }}{{ $zhHome = .Home.RelPermalink }}{{ end }}
+        {{ if eq .Language.Lang "en" }}{{ $enHome = .Home.RelPermalink }}{{ end }}
+      {{ end }}
+      {{ $zhURL := $zhHome }}{{ $enURL := $enHome }}
+      {{ range .AllTranslations }}
+        {{ if eq .Language.Lang "zh" }}{{ $zhURL = .RelPermalink }}{{ end }}
+        {{ if eq .Language.Lang "en" }}{{ $enURL = .RelPermalink }}{{ end }}
+      {{ end }}
+      <a href="{{ $zhURL }}"{{ if eq .Site.Language.Lang "zh" }} class="current"{{ end }}>{{ T "lang_zh" }}</a>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <a href="{{ $enURL }}"{{ if eq .Site.Language.Lang "en" }} class="current"{{ end }}>{{ T "lang_en" }}</a>
+    </div>
+  </div>
+</nav>

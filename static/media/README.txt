@@ -1,8 +1,10 @@
-# 把图片 / 视频放到本目录后，网页会自动引用。不要用中文或空格做文件名。
+媒体文件说明
+============
 
-team/    团队成员照片（shan-wenchen.jpg 等，对照 data/team.yaml 的 photo 字段）
-blog/    博客插图与 mp4
-misc/    杂项：qihongtuo.jpg 个人照；banner.jpg 可选横幅实景图
+  team/   团队成员照片，文件名与 data/team.yaml 的 photo 一致
+  blog/   博客插图、mp4
+  misc/   横幅 banner.jpg（可选）、个人照 qihongtuo.jpg
+          首页入口图 tile-people.jpg / tile-papers.jpg / tile-blog.jpg（可选，没有则用 svg）
 
-没放真人照片时显示 _placeholder.svg / _portrait.svg / _figure.svg，请勿删除这些占位图。
-图片建议压缩到 500KB 以内。
+文件名只用小写字母、数字、连字符。图片尽量小于 500KB。
+_placeholder.svg、_portrait.svg、_figure.svg 以及 tile-*.svg 是占位/默认图，不要删。

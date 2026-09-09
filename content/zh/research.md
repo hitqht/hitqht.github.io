@@ -1,6 +1,6 @@
 ---
 title: 研究方向
-description: 齐宏拓课题组研究方向：装配式建筑、建造领域垂类大模型、智能设计、智能检测、建造机器人。
+description: 装配式建筑、建造领域垂类大模型、智能设计、智能检测、建造机器人。
 translationKey: research
 kind: research
 aliases:

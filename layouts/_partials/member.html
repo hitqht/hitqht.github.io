@@ -1,0 +1,53 @@
+{{ $name := cond (eq .lang "zh") .member.name_zh .member.name_en }}
+{{ $role := cond (eq .lang "zh") .member.role_zh .member.role_en }}
+{{ $bio := cond (eq .lang "zh") .member.bio_zh .member.bio_en }}
+{{ $works := cond (eq .lang "zh") .member.works_zh .member.works_en }}
+{{ $focus := cond (eq .lang "zh") .member.focus_zh .member.focus_en }}
+{{ $file := printf "static/media/team/%s" .member.photo }}
+{{ $src := .placeholder }}
+{{ if and .member.photo (fileExists $file) }}
+  {{ $src = printf "media/team/%s" .member.photo | relURL }}
+{{ end }}
+{{ if .interactive }}
+<article class="member-card is-pop">
+  <button type="button" class="member-face" aria-expanded="false">
+    <img class="member-photo" src="{{ $src }}" alt=""
+         onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+    <div class="mname">{{ $name }}</div>
+    {{ with $role }}<div class="mrole">{{ . }}</div>{{ end }}
+    <span class="member-hint">{{ T "member_hint" }}</span>
+  </button>
+  <div class="member-detail">
+    <img class="member-pop-photo" src="{{ $src }}" alt=""
+         onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+    <p class="cv-kicker">{{ T "engineer_kicker" }}</p>
+    <h3 class="member-pop-name">{{ $name }}</h3>
+    {{ with $role }}<p class="member-pop-role">{{ . }}</p>{{ end }}
+    {{ with .member.github }}
+    <p class="member-pop-links">
+      <a class="engineer-github" href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
+    </p>
+    {{ end }}
+    {{ with $bio }}<p class="member-pop-bio">{{ . }}</p>{{ end }}
+    {{ with $works }}
+    <p class="engineer-works-label">{{ T "engineer_works" }}</p>
+    <ul class="engineer-works">
+      {{ range . }}<li>{{ . }}</li>{{ end }}
+    </ul>
+    {{ end }}
+  </div>
+</article>
+{{ else }}
+<div class="member-card">
+  <img class="member-photo" src="{{ $src }}" alt="{{ $name }}"
+       onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+  <div class="mname">{{ $name }}</div>
+  {{ with $role }}<div class="mrole">{{ . }}</div>{{ end }}
+  {{ with .member.years }}<div class="myears">{{ . }}</div>{{ end }}
+  {{ if and $focus .member.focus_url }}
+    <a class="mproject" href="{{ .member.focus_url }}"{{ if strings.HasPrefix .member.focus_url "http" }} target="_blank" rel="noopener"{{ end }}>{{ $focus }}</a>
+  {{ else if $focus }}
+    <p class="mproject">{{ $focus }}</p>
+  {{ end }}
+</div>
+{{ end }}

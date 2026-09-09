@@ -16,8 +16,8 @@ disableKinds = ["taxonomy", "term"]
   email = "hitqht@163.com"
   authorZh = "齐宏拓"
   authorEn = "Qi Hongtuo"
-  orcid = ""
-  scholar = ""
+  orcid = ""          # 例如 0000-0002-xxxx-xxxx，填了会写入 Person/sameAs
+  scholar = ""        # Google Scholar 主页完整 URL
   portrait = "media/misc/qihongtuo.jpg"
   portraitFallback = "media/misc/_portrait.svg"
   teamPlaceholder = "media/team/_placeholder.svg"
@@ -36,10 +36,12 @@ disableKinds = ["taxonomy", "term"]
   weight = 1
   title = "齐宏拓课题组"
   [languages.zh.params]
+    seoTitle = "齐宏拓｜重庆大学 · 智能建造"
     brand = "齐宏拓课题组"
     tagline = "智能建造 · Intelligent Construction  |  重庆大学土木工程学院"
     affiliation = "重庆大学土木工程学院"
     description = "齐宏拓，重庆大学土木工程学院特聘研究员：装配式建筑、智能设计、智能检测、建造机器人、建造领域垂类大模型。"
+    keywords = ["装配式建筑", "垂类大模型", "智能设计", "智能检测", "建造机器人"]
 
 [languages.en]
   locale = "en"
@@ -48,10 +50,12 @@ disableKinds = ["taxonomy", "term"]
   weight = 2
   title = "Qi Hongtuo Lab"
   [languages.en.params]
+    seoTitle = "Qi Hongtuo | Intelligent Construction, Chongqing University"
     brand = "Qi Hongtuo Lab"
     tagline = "Intelligent Construction  |  School of Civil Engineering, Chongqing University"
     affiliation = "School of Civil Engineering, Chongqing University"
     description = "Qi Hongtuo, Distinguished Research Fellow at Chongqing University: prefabricated construction, intelligent design, intelligent inspection, construction robotics, and domain-specific LLMs for construction."
+    keywords = ["Prefabrication", "Domain LLM", "Intelligent design", "Inspection", "Robotics"]
 
 # ---------- 中文导航 ----------
 [[languages.zh.menus.main]]
@@ -85,15 +89,10 @@ disableKinds = ["taxonomy", "term"]
   pageRef = "/awards"
   weight = 6
 [[languages.zh.menus.main]]
-  identifier = "blog"
-  name = "博客"
-  pageRef = "/blog"
-  weight = 7
-[[languages.zh.menus.main]]
   identifier = "cv"
   name = "个人履历"
   pageRef = "/cv"
-  weight = 8
+  weight = 7
 
 # ---------- English nav ----------
 [[languages.en.menus.main]]
@@ -127,12 +126,7 @@ disableKinds = ["taxonomy", "term"]
   pageRef = "/awards"
   weight = 6
 [[languages.en.menus.main]]
-  identifier = "blog"
-  name = "Blog"
-  pageRef = "/blog"
-  weight = 7
-[[languages.en.menus.main]]
   identifier = "cv"
   name = "CV"
   pageRef = "/cv"
-  weight = 8
+  weight = 7

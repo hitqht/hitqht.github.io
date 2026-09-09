@@ -3,9 +3,9 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body>
+<body class="{{ if .IsHome }}is-home{{ end }}">
   {{ partial "header.html" . }}
-  <main>
+  <main id="home-start">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

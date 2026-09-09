@@ -4,32 +4,55 @@
 {{ $ph := site.Params.teamPlaceholder | relURL }}
 
 {{ if eq .Params.kind "publications" }}
-  {{ $note := or .Params.note (T "publications_note") }}
-  <p class="note">{{ $note }}</p>
-  <table class="pubs">
-    {{ range hugo.Data.publications }}
-    {{ $full := or .title_full .title }}
-    {{ $au := .authors }}
-    {{ if not (strings.HasSuffix $au ".") }}{{ $au = printf "%s." $au }}{{ end }}
-    {{ $cite := printf "%s %s. <i>%s</i>, %s." $au $full .journal .rest }}
-    <tr>
-      <td class="ptitle">{{ .title }}</td>
-      <td class="pcite">
-        {{ if .doi }}
-        <a href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">{{ $cite | safeHTML }}</a>
-        {{ else }}
-        {{ $cite | safeHTML }}
-        {{ end }}
-      </td>
-    </tr>
-    {{ end }}
-  </table>
+  {{ $items := sort hugo.Data.publications "year" "desc" }}
+  {{ $n := len $items }}
+  {{ $latest := 0 }}
+  {{ range $items }}{{ if gt .year $latest }}{{ $latest = .year }}{{ end }}{{ end }}
+  <section class="pub-block">
+    <p class="cv-kicker">{{ T "publications_kicker" }}</p>
+    {{ $note := or .Params.note (T "publications_note") }}
+    <p class="note">{{ $note }}</p>
+    <div class="pub-board">
+      {{ range $i, $p := $items }}
+      {{ $prevYear := 0 }}
+      {{ if gt $i 0 }}{{ with index $items (sub $i 1) }}{{ $prevYear = .year }}{{ end }}{{ end }}
+      {{ $nextYear := 0 }}
+      {{ if lt $i (sub $n 1) }}{{ with index $items (add $i 1) }}{{ $nextYear = .year }}{{ end }}{{ end }}
+      {{ $title := or $p.title_full $p.title }}
+      {{ $au := $p.authors }}
+      {{ if in $au "Qi Hongtuo*" }}
+        {{ $au = replace $au "Qi Hongtuo*" "<b class=\"self-name\">Qi Hongtuo*</b>" }}
+      {{ else }}
+        {{ $au = replace $au "Qi Hongtuo" "<b class=\"self-name\">Qi Hongtuo</b>" }}
+      {{ end }}
+      {{ if ne $p.year $prevYear }}
+      <section class="pub-year-group{{ if eq $p.year $latest }} is-now{{ end }}">
+        <div class="pub-year">{{ $p.year }}</div>
+        <div class="pub-year-items">
+      {{ end }}
+          <article class="pub-card">
+            <div class="pub-head">
+              <p class="pub-venue"><i>{{ $p.journal }}</i>{{ with $p.rest }} <span class="pub-rest">{{ . }}</span>{{ end }}</p>
+              {{ with $p.doi }}
+              <a class="pub-doi" href="https://doi.org/{{ . }}" target="_blank" rel="noopener">DOI</a>
+              {{ end }}
+            </div>
+            <h3 class="pub-title">{{ $title }}</h3>
+            <p class="pub-authors">{{ $au | safeHTML }}</p>
+          </article>
+      {{ if ne $p.year $nextYear }}
+        </div>
+      </section>
+      {{ end }}
+      {{ end }}
+    </div>
+  </section>
   {{ $ld := slice }}
-  {{ range hugo.Data.publications }}
+  {{ range $items }}
     {{ $ld = $ld | append (dict
       "@context" "https://schema.org"
       "@type" "ScholarlyArticle"
-      "headline" .title
+      "headline" (or .title_full .title)
       "author" .authors
       "datePublished" (printf "%d" .year)
       "identifier" (printf "https://doi.org/%s" .doi)
@@ -39,77 +62,222 @@
   <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
 
 {{ else if eq .Params.kind "team" }}
-  <div class="team-grid">
-    {{ range hugo.Data.team }}
-    {{ $name := cond (eq $lang "zh") .name_zh .name_en }}
-    {{ $role := cond (eq $lang "zh") .role_zh .role_en }}
-    {{ $bio := cond (eq $lang "zh") .bio_zh .bio_en }}
-    {{ $src := printf "media/team/%s" .photo | relURL }}
-    <div class="member-card">
-      <img src="{{ $src }}" alt="{{ $name }}"
-           onerror="this.onerror=null;this.src='{{ $ph }}';">
-      <div class="mname">{{ $name }}</div>
-      <div class="mrole">{{ $role }}</div>
-      <p class="mbio">{{ $bio }}</p>
+  <div class="pi-card">
+    <img src="{{ site.Params.portrait | relURL }}"
+         alt="{{ if eq $lang "zh" }}{{ $selfZh }}{{ else }}{{ $selfEn }}{{ end }}"
+         onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
+    <div class="pi-meta">
+      <div class="mname">{{ if eq $lang "zh" }}{{ $selfZh }}{{ else }}{{ $selfEn }}{{ end }}</div>
+      <div class="mrole">{{ T "pi_role" }}</div>
+      <p class="mbio">{{ T "pi_affil" }}</p>
+      <p class="pi-links">
+        <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+        {{ with site.GetPage "/cv" }} · <a href="{{ .RelPermalink }}">{{ T "cv" }}</a>{{ end }}
+      </p>
     </div>
+  </div>
+  <h2 class="team-heading">{{ T "faculty_team" }}</h2>
+  <div class="team-grid">
+    {{ range where hugo.Data.team "group" "faculty" }}
+      {{ partial "member.html" (dict "member" . "lang" $lang "placeholder" $ph) }}
+    {{ end }}
+  </div>
+  <h2 class="team-heading">{{ T "engineer_team" }}</h2>
+  <p class="note team-engineer-note">{{ T "engineer_note" }}</p>
+  <div class="team-grid">
+    {{ range where hugo.Data.team "group" "engineer" }}
+      {{ partial "member.html" (dict "member" . "lang" $lang "placeholder" $ph "interactive" true) }}
     {{ end }}
   </div>
 
 {{ else if eq .Params.kind "books" }}
-  {{ with or .Params.note (T "books_note") }}<p class="note">{{ . }}</p>{{ end }}
-  <ol class="list">
-    {{ range hugo.Data.books }}
-    {{ $authors := cond (eq $lang "zh") .authors_zh .authors_en }}
-    {{ $self := cond (eq $lang "zh") $selfZh $selfEn }}
-    {{ $title := cond (eq $lang "zh") .title_zh .title_en }}
-    {{ $pub := cond (eq $lang "zh") .publisher_zh .publisher_en }}
-    {{ $authorsH := replace $authors $self (printf "<u>%s</u>" $self) }}
-    <li>{{ $authorsH | safeHTML }}{{ if eq $lang "zh" }}. 《{{ $title }}》，{{ $pub }}，{{ .year }}.{{ else }}. <i>{{ $title }}</i>, {{ $pub }}, {{ .year }}.{{ end }}</li>
-    {{ end }}
-  </ol>
+  <section class="book-block">
+    <p class="cv-kicker">{{ T "books_kicker" }}</p>
+    {{ with or .Params.note (T "books_note") }}<p class="note">{{ . }}</p>{{ end }}
+    <div class="book-grid">
+      {{ range hugo.Data.books }}
+      {{ $authors := cond (eq $lang "zh") .authors_zh .authors_en }}
+      {{ $self := cond (eq $lang "zh") $selfZh $selfEn }}
+      {{ $title := cond (eq $lang "zh") .title_zh .title_en }}
+      {{ $pub := cond (eq $lang "zh") .publisher_zh .publisher_en }}
+      {{ $authorsH := replace $authors $self (printf "<b class=\"self-name\">%s</b>" $self) }}
+      <article class="book-card">
+        <div class="book-cover" aria-hidden="true">
+          <span class="book-cover-year">{{ .year }}</span>
+        </div>
+        <div class="book-body">
+          <h3 class="book-title">{{ if eq $lang "zh" }}《{{ $title }}》{{ else }}{{ $title }}{{ end }}</h3>
+          <p class="book-authors">{{ $authorsH | safeHTML }}</p>
+          <p class="book-pub">{{ $pub }}</p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </section>
 
 {{ else if eq .Params.kind "awards" }}
-  {{ with or .Params.note (T "awards_note") }}<p class="note">{{ . }}</p>{{ end }}
-  <ol class="list">
-    {{ range hugo.Data.awards }}
-    <li>{{ cond (eq $lang "zh") .zh .en | safeHTML }}</li>
+  <section class="award-block">
+    <p class="cv-kicker">{{ T "awards_kicker" }}</p>
+    {{ with or .Params.note (T "awards_note") }}<p class="note">{{ . }}</p>{{ end }}
+    {{ range $g := slice "prize" "demo" "honor" }}
+    {{ $list := where hugo.Data.awards "group" $g }}
+    {{ if $list }}
+    <h2 class="award-group">{{ T (printf "awards_%s" $g) }}</h2>
+    <div class="award-grid award-grid-{{ $g }}">
+      {{ range $list }}
+      {{ $title := cond (eq $lang "zh") .title_zh .title_en }}
+      {{ $work := cond (eq $lang "zh") .work_zh .work_en }}
+      {{ $role := cond (eq $lang "zh") .role_zh .role_en }}
+      <article class="award-card is-{{ $g }}">
+        {{ with .year }}<span class="award-year">{{ . }}</span>{{ end }}
+        <div class="award-body">
+          {{ with $role }}<span class="award-role">{{ . }}</span>{{ end }}
+          <h3 class="award-title">{{ $title }}</h3>
+          {{ with $work }}<p class="award-work">{{ . }}</p>{{ end }}
+        </div>
+      </article>
+      {{ end }}
+    </div>
     {{ end }}
-  </ol>
+    {{ end }}
+  </section>
 
 {{ else if eq .Params.kind "research" }}
   {{ .Content }}
-  <h2>{{ T "projects" }}</h2>
-  {{ with or .Params.projects_note (T "projects_note") }}<p class="note">{{ . }}</p>{{ end }}
-  <table class="info">
-    {{ range hugo.Data.projects }}
-    <tr>
-      <td class="when">{{ cond (eq $lang "zh") .when_zh .when_en }}</td>
-      <td>{{ cond (eq $lang "zh") .text_zh .text_en | safeHTML }}</td>
-    </tr>
-    {{ end }}
-  </table>
+  {{ $items := hugo.Data.projects }}
+  {{ $n := len $items }}
+  {{ $latest := 0 }}
+  {{ range $items }}{{ if gt .year $latest }}{{ $latest = .year }}{{ end }}{{ end }}
+  <section class="proj-block">
+    <p class="cv-kicker">{{ T "projects_kicker" }}</p>
+    <h2 class="cv-heading">{{ T "projects" }}</h2>
+    {{ with or .Params.projects_note (T "projects_note") }}<p class="note">{{ . }}</p>{{ end }}
+    <div class="proj-board">
+      {{ range $i, $p := $items }}
+      {{ $prevYear := 0 }}
+      {{ if gt $i 0 }}{{ with index $items (sub $i 1) }}{{ $prevYear = .year }}{{ end }}{{ end }}
+      {{ $nextYear := 0 }}
+      {{ if lt $i (sub $n 1) }}{{ with index $items (add $i 1) }}{{ $nextYear = .year }}{{ end }}{{ end }}
+      {{ $role := cond (eq $lang "zh") $p.role_zh $p.role_en }}
+      {{ $source := cond (eq $lang "zh") $p.source_zh $p.source_en }}
+      {{ $title := cond (eq $lang "zh") $p.title_zh $p.title_en }}
+      {{ $amount := cond (eq $lang "zh") $p.amount_zh $p.amount_en }}
+      {{ $total := cond (eq $lang "zh") $p.total_zh $p.total_en }}
+      {{ if ne $p.year $prevYear }}
+      <section class="proj-year-group{{ if eq $p.year $latest }} is-now{{ end }}">
+        <div class="proj-year">{{ $p.year }}</div>
+        <div class="proj-year-items">
+      {{ end }}
+          <article class="proj-card{{ if eq $p.role "pi" }} is-pi{{ end }}">
+            <div class="proj-head">
+              <span class="proj-role">{{ $role }}</span>
+              <span class="proj-source">{{ $source }}</span>
+              <div class="proj-fund">
+                <span class="proj-fund-label">{{ T "projects_fund" }}</span>
+                <span class="proj-fund-num">{{ $amount }}</span>
+              </div>
+            </div>
+            <h3 class="proj-title">{{ if eq $lang "zh" }}《{{ $title }}》{{ else }}{{ $title }}{{ end }}</h3>
+            {{ with $total }}<p class="proj-total">{{ . }}</p>{{ end }}
+          </article>
+      {{ if ne $p.year $nextYear }}
+        </div>
+      </section>
+      {{ end }}
+      {{ end }}
+    </div>
+  </section>
 
 {{ else if eq .Params.kind "cv" }}
-  <h2>{{ T "education" }}</h2>
-  <table class="info">
-    {{ range hugo.Data.cv.education }}
-    <tr><td class="when">{{ .when }}</td><td>{{ cond (eq $lang "zh") .zh .en }}</td></tr>
-    {{ end }}
-  </table>
-  <h2 style="margin-top:40px">{{ T "experience" }}</h2>
-  <table class="info">
-    {{ range hugo.Data.cv.experience }}
-    <tr>
-      <td class="when">{{ cond (eq $lang "zh") .when_zh .when_en }}</td>
-      <td>{{ cond (eq $lang "zh") .zh .en }}</td>
-    </tr>
-    {{ end }}
-  </table>
-  <h2 style="margin-top:40px">{{ T "licenses" }}</h2>
-  <ol class="list">
-    {{ range hugo.Data.cv.licenses }}
-    <li>{{ cond (eq $lang "zh") .zh .en }}</li>
-    {{ end }}
-  </ol>
+  {{ $years := slice }}
+  {{ range hugo.Data.cv.experience }}
+    {{ $when := cond (eq $lang "zh") .when_zh .when_en }}
+    {{ with findRE `^\d{4}` $when }}{{ $years = $years | append (index . 0) }}{{ end }}
+  {{ end }}
+  {{ range hugo.Data.cv.education }}
+    {{ with findRE `^\d{4}` .when }}{{ $years = $years | append (index . 0) }}{{ end }}
+  {{ end }}
+  {{ $years = sort (uniq $years) }}
+  {{ $latest := "" }}{{ with last 1 $years }}{{ $latest = index . 0 }}{{ end }}
+  <section class="cv-block cv-axis-block">
+    <p class="cv-kicker">Timeline</p>
+    <h2 class="cv-heading">{{ T "cv" }}</h2>
+    <p class="note">{{ T "axis_hint" }}</p>
+    <div class="cv-axis-wrap">
+      <div class="cv-axis" id="cv-axis" role="list" data-latest="{{ $latest }}">
+        {{ range $years }}
+        <button type="button" class="cv-axis-node{{ if eq . $latest }} is-on{{ end }}" data-year="{{ . }}" role="listitem">
+          <span class="cv-axis-dot"></span>
+          <span class="cv-axis-year">{{ . }}</span>
+        </button>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  <section class="cv-block">
+    <p class="cv-kicker">{{ T "experience_kicker" }}</p>
+    <h2 class="cv-heading">{{ T "experience" }}</h2>
+    <ol class="timeline">
+      {{ range $i, $item := hugo.Data.cv.experience }}
+      {{ $when := cond (eq $lang "zh") $item.when_zh $item.when_en }}
+      {{ $text := cond (eq $lang "zh") $item.zh $item.en }}
+      {{ $role := $text }}{{ $place := "" }}
+      {{ if eq $lang "zh" }}
+        {{ $parts := split $text "，" }}
+        {{ if ge (len $parts) 2 }}{{ $place = index $parts 0 }}{{ $role = delimit (after 1 $parts) "，" }}{{ end }}
+      {{ else }}
+        {{ $parts := split $text ", " }}
+        {{ if ge (len $parts) 2 }}{{ $role = index $parts 0 }}{{ $place = delimit (after 1 $parts) ", " }}{{ end }}
+      {{ end }}
+      {{ $year := "" }}{{ with findRE `^\d{4}` $when }}{{ $year = index . 0 }}{{ end }}
+      <li class="{{ if eq $i 0 }}is-now {{ end }}" data-year="{{ $year }}">
+        <div class="tl-year" aria-hidden="true">{{ $year }}</div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <time>{{ $when }}</time>
+            {{ if eq $i 0 }}<span class="tl-now">{{ T "now_label" }}</span>{{ end }}
+          </div>
+          <div class="timeline-role">{{ $role }}</div>
+          {{ with $place }}<div class="timeline-place">{{ . }}</div>{{ end }}
+        </div>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
+  <section class="cv-block">
+    <p class="cv-kicker">{{ T "education_kicker" }}</p>
+    <h2 class="cv-heading">{{ T "education" }}</h2>
+    <ol class="timeline">
+      {{ range hugo.Data.cv.education }}
+      {{ $text := cond (eq $lang "zh") .zh .en }}
+      {{ $role := $text }}{{ $place := "" }}
+      {{ if eq $lang "zh" }}
+        {{ $parts := split $text "，" }}
+        {{ if ge (len $parts) 2 }}{{ $place = index $parts 0 }}{{ $role = delimit (after 1 $parts) "，" }}{{ end }}
+      {{ else }}
+        {{ $parts := split $text ", " }}
+        {{ if ge (len $parts) 2 }}{{ $role = index $parts 0 }}{{ $place = delimit (after 1 $parts) ", " }}{{ end }}
+      {{ end }}
+      {{ $year := "" }}{{ with findRE `^\d{4}` .when }}{{ $year = index . 0 }}{{ end }}
+      <li data-year="{{ $year }}">
+        <div class="tl-year" aria-hidden="true">{{ $year }}</div>
+        <div class="tl-card">
+          <div class="tl-top"><time>{{ .when }}</time></div>
+          <div class="timeline-role">{{ $role }}</div>
+          {{ with $place }}<div class="timeline-place">{{ . }}</div>{{ end }}
+        </div>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
+  <section class="cv-block">
+    <p class="cv-kicker">{{ T "licenses_kicker" }}</p>
+    <h2 class="cv-heading">{{ T "licenses" }}</h2>
+    <ul class="cv-creds">
+      {{ range hugo.Data.cv.licenses }}
+      <li>{{ cond (eq $lang "zh") .zh .en }}</li>
+      {{ end }}
+    </ul>
+  </section>
 
 {{ end }}

@@ -1,33 +1,99 @@
 {{ define "main" }}
-  <h2>{{ T "bio" }}</h2>
-  <img class="profile-photo"
-       src="{{ site.Params.portrait | relURL }}"
-       alt="{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}"
-       onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
-  {{ .Content }}
+  {{ $peopleImg := "media/misc/tile-people.svg" }}
+  {{ $papersImg := "media/misc/tile-papers.svg" }}
+  {{ $researchImg := "media/misc/hero-research.jpg" }}
+  {{ if fileExists "static/media/misc/tile-people.jpg" }}{{ $peopleImg = "media/misc/tile-people.jpg" }}{{ end }}
+  {{ if fileExists "static/media/misc/tile-papers.jpg" }}{{ $papersImg = "media/misc/tile-papers.jpg" }}{{ end }}
+
+  <section class="home-bio reveal">
+    <figure class="home-bio-photo">
+      <img class="profile-photo"
+           src="{{ site.Params.portrait | relURL }}"
+           alt="{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}"
+           onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
+    </figure>
+    <div class="home-bio-copy">
+      <h2 class="bio-name">{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}</h2>
+      {{ with .Params.roles }}
+      <p class="bio-title">{{ delimit . " · " }}</p>
+      {{ end }}
+      <p class="bio-affil">{{ site.Params.affiliation }}</p>
+      <div class="bio-text">{{ .Content }}</div>
+      {{ with site.Params.keywords }}
+      <p class="bio-focus"><em>{{ T "keywords" }}</em>{{ delimit . " · " }}</p>
+      {{ end }}
+    </div>
+  </section>
+
   <div class="tiles">
-    {{ with site.GetPage "/team" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">👥</div><div class="name">{{ T "tile_team" }}</div></a>
+    {{ with site.GetPage "/research" }}
+    <a class="tile reveal" href="{{ .RelPermalink }}">
+      <img src="{{ $researchImg | relURL }}" alt="{{ T "research" }}">
+      <div class="tile-body">
+        <span class="tile-kicker">Lab</span>
+        <div class="name">{{ T "research" }}</div>
+      </div>
+    </a>
     {{ end }}
     {{ with site.GetPage "/publications" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">📄</div><div class="name">{{ T "tile_pubs" }}</div></a>
+    <a class="tile reveal" href="{{ .RelPermalink }}">
+      <img src="{{ $papersImg | relURL }}" alt="{{ T "tile_pubs" }}">
+      <div class="tile-body">
+        <span class="tile-kicker">DOI</span>
+        <div class="name">{{ T "tile_pubs" }}</div>
+      </div>
+    </a>
     {{ end }}
-    {{ with site.GetPage "/books" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">📚</div><div class="name">{{ T "tile_books" }}</div></a>
-    {{ end }}
-    {{ with site.GetPage "/research" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">🔬</div><div class="name">{{ T "tile_research" }}</div></a>
-    {{ end }}
-    {{ with site.GetPage "/awards" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">🏆</div><div class="name">{{ T "tile_awards" }}</div></a>
-    {{ end }}
-    {{ with site.GetPage "/blog" }}
-    <a class="tile" href="{{ .RelPermalink }}"><div class="icon">✍️</div><div class="name">{{ T "tile_blog" }}</div></a>
+    {{ with site.GetPage "/team" }}
+    <a class="tile reveal" href="{{ .RelPermalink }}">
+      <img src="{{ $peopleImg | relURL }}" alt="{{ T "tile_team" }}">
+      <div class="tile-body">
+        <span class="tile-kicker">People</span>
+        <div class="name">{{ T "tile_team" }}</div>
+      </div>
+    </a>
     {{ end }}
   </div>
-  <h3>{{ T "contact" }}</h3>
-  <p>
-    {{ T "affiliation_label" }}{{ if eq site.Language.Lang "zh" }}：{{ else }}: {{ end }}{{ site.Params.affiliation }}<br>
-    {{ T "email_label" }}{{ if eq site.Language.Lang "zh" }}：{{ else }}: {{ end }}<a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
-  </p>
+
+  <section class="home-split">
+    <div class="reveal">
+      <div class="section-head">
+        <h2>{{ T "latest_projects" }}</h2>
+        {{ with site.GetPage "/research" }}<a class="text-link" href="{{ .RelPermalink }}">{{ T "view_all" }} →</a>{{ end }}
+      </div>
+      {{ range first 3 hugo.Data.projects }}
+      {{ $title := cond (eq site.Language.Lang "zh") .title_zh .title_en }}
+      {{ $role := cond (eq site.Language.Lang "zh") .role_zh .role_en }}
+      {{ $year := .year }}
+      {{ with site.GetPage "/research" }}
+      <a class="feed-item" href="{{ .RelPermalink }}">
+        <time>{{ $year }} · {{ $role }}</time>
+        <strong>{{ $title }}</strong>
+      </a>
+      {{ end }}
+      {{ end }}
+    </div>
+    <div class="reveal">
+      <div class="section-head">
+        <h2>{{ T "latest_papers" }}</h2>
+        {{ with site.GetPage "/publications" }}<a class="text-link" href="{{ .RelPermalink }}">{{ T "view_all" }} →</a>{{ end }}
+      </div>
+      {{ range first 3 (sort hugo.Data.publications "year" "desc") }}
+      <a class="feed-item" href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">
+        <time>{{ .year }} · {{ .journal }}</time>
+        <strong>{{ .title }}</strong>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+
+  <div class="home-cta reveal">
+    <div>
+      <p class="kicker">{{ T "contact" }}</p>
+      <h2>{{ T "cta_title" }}</h2>
+      <p>{{ T "cta_body" }}</p>
+      <p class="home-cta-meta">{{ site.Params.affiliation }}</p>
+    </div>
+    <a class="btn btn-primary" href="mailto:{{ site.Params.email }}">{{ T "write_email" }}</a>
+  </div>
 {{ end }}

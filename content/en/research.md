@@ -1,6 +1,6 @@
 ---
 title: Research
-description: Research of Qi Hongtuo Lab — prefabricated construction, domain-specific LLMs, intelligent design and inspection, and construction robotics.
+description: Prefabricated construction, domain-specific LLMs, intelligent design and inspection, and construction robotics.
 translationKey: research
 kind: research
 ---

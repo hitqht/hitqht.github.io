@@ -1,4 +1,4 @@
-# 左列标题用 title；引用里的题目默认与 title 相同，若更长则填 title_full。
+# 页面按 year 从新到旧分组。title 为题目；更长的正式题名可另填 title_full。
 # 新增论文：复制一条，改 title / authors / journal / rest / doi / year。
 
 - title: Dual-branch networks with texture-guided feature enhancement for intelligent recognition of concrete surface quality defects

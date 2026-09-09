@@ -1,6 +1,6 @@
 ---
 title: People
-description: Faculty and collaborators of Qi Hongtuo Lab.
+description: Collaborating faculty and engineers.
 translationKey: team
 kind: team
 ---

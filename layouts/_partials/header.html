@@ -1,16 +1,14 @@
 {{ $hasPhoto := fileExists "static/media/misc/banner.jpg" }}
-<header class="banner{{ if $hasPhoto }} has-photo{{ end }}">
-  <svg class="skyline" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
-    <path fill="#ffffff" d="M0,200 L0,120 L60,120 L60,60 L110,60 L110,140 L170,140 L170,30 L230,30 L230,100 L290,100 L290,150 L350,150 L350,80 L420,80 L420,20 L470,20 L470,120 L540,120 L540,90 L600,90 L600,40 L660,40 L660,130 L730,130 L730,70 L800,70 L800,150 L860,150 L860,50 L930,50 L930,110 L990,110 L990,160 L1060,160 L1060,85 L1130,85 L1130,130 L1200,130 L1200,200 Z"/>
-  </svg>
-  <div class="banner-text">
-    <p class="brand">{{ or .Params.brand .Site.Params.brand }}</p>
-    <p class="tagline">{{ or .Params.tagline .Site.Params.tagline }}</p>
-  </div>
-</header>
-<nav>
+{{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
+<div class="read-progress" id="read-progress" hidden></div>
+<nav class="site-nav" id="site-nav">
   <div class="nav-inner">
-    <ul>
+    <a class="nav-brand" href="{{ site.Home.RelPermalink }}">{{ $author }}</a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-menu">
+      <span></span><span></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <ul id="site-menu">
       {{ range site.Menus.main }}
       <li><a href="{{ .URL }}"{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }} class="active"{{ end }}>{{ .Name }}</a></li>
       {{ end }}
@@ -32,3 +30,51 @@
     </div>
   </div>
 </nav>
+{{ if .IsHome }}
+<header class="hero{{ if $hasPhoto }} has-photo{{ end }}" id="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+  <div class="hero-spot" aria-hidden="true"></div>
+  <div class="hero-noise" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="kicker">{{ T "hero_kicker" }}</p>
+    <h1 class="brand">{{ $author }}</h1>
+    <p class="hero-role">{{ T "hero_role" }}</p>
+    <p class="lead">{{ T "hero_lead" }}</p>
+    {{ with site.Params.keywords }}
+    <ul class="chips">
+      {{ range . }}<li>{{ . }}</li>{{ end }}
+    </ul>
+    {{ end }}
+    <div class="hero-cta">
+      {{ with site.GetPage "/publications" }}
+      <a class="btn btn-primary" href="{{ .RelPermalink }}">{{ T "hero_cta_papers" }}</a>
+      {{ end }}
+      {{ with site.GetPage "/research" }}
+      <a class="btn btn-ghost" href="{{ .RelPermalink }}">{{ T "hero_cta_research" }}</a>
+      {{ end }}
+    </div>
+  </div>
+  <a class="scroll-cue" href="#home-start">{{ T "hero_scroll" }}</a>
+</header>
+{{ else }}
+{{ $heroKey := "" }}
+{{ with .Params.kind }}{{ $heroKey = . }}{{ end }}
+{{ $heroURL := "" }}
+{{ if $heroKey }}
+  {{ $heroFile := printf "static/media/misc/hero-%s.jpg" $heroKey }}
+  {{ if fileExists $heroFile }}
+    {{ $heroURL = printf "media/misc/hero-%s.jpg" $heroKey | relURL }}
+  {{ end }}
+{{ end }}
+<header class="page-hero{{ if $heroURL }} has-photo{{ end }}"{{ if $heroURL }} style="--page-hero-img: url('{{ $heroURL }}')"{{ end }}>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="kicker">{{ T "hero_kicker" }}</p>
+    <h1>{{ if eq .Kind "404" }}{{ T "page_404_title" }}{{ else }}{{ .Title }}{{ end }}</h1>
+    {{ with or .Description .Params.description }}<p class="lead">{{ . }}</p>{{ end }}
+  </div>
+</header>
+{{ end }}

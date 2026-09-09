@@ -1,8 +1,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ if .IsHome }}{{ T "home" }} | {{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+{{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
+{{ $pageTitle := .Title }}
+{{ if .IsHome }}{{ $pageTitle = or site.Params.seoTitle site.Title }}{{ end }}
+<title>{{ if .IsHome }}{{ $pageTitle }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
 {{ $desc := or .Description .Params.description .Site.Params.description }}
 <meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ $author }}">
+{{ if eq .Kind "404" }}
+<meta name="robots" content="noindex, follow">
+{{ else }}
+<meta name="robots" content="index, follow">
+{{ end }}
 <link rel="canonical" href="{{ .Permalink }}">
 {{ $xd := "" }}
 {{ range .AllTranslations }}
@@ -13,29 +22,66 @@
   {{ range hugo.Sites }}{{ if eq .Language.Lang "zh" }}{{ $xd = .Home.Permalink }}{{ end }}{{ end }}
 {{ end }}
 <link rel="alternate" hreflang="x-default" href="{{ $xd }}">
-<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+{{ with .OutputFormats.Get "RSS" }}
+<link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .Permalink }}">
+{{ end }}
+{{ $ogImg := "" }}
+{{ with .Params.image }}{{ $ogImg = . | absURL }}{{ end }}
+{{ if not $ogImg }}
+  {{ if fileExists "static/media/misc/banner.jpg" }}
+    {{ $ogImg = "media/misc/banner.jpg" | absURL }}
+  {{ else }}
+    {{ $ogImg = site.Params.portrait | absURL }}
+  {{ end }}
+{{ end }}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ if .IsHome }}{{ $pageTitle }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $ogImg }}">
+<meta property="og:image:alt" content="{{ $pageTitle }}">
 <meta property="og:locale" content="{{ if eq .Site.Language.Lang "zh" }}zh_CN{{ else }}en_US{{ end }}">
 {{ range .AllTranslations }}
   {{ if ne .Language.Lang $.Site.Language.Lang }}
 <meta property="og:locale:alternate" content="{{ if eq .Language.Lang "zh" }}zh_CN{{ else }}en_US{{ end }}">
   {{ end }}
 {{ end }}
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ $pageTitle }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ $desc }}">
+<meta name="twitter:image" content="{{ $ogImg }}">
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=noto-sans-sc:400,500,600,700|noto-serif-sc:600,700|source-serif-4:600,700|space-grotesk:500,600,700&display=swap">
 <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+<script src="{{ "js/site.js" | relURL }}" defer></script>
 {{ if .IsHome }}
 {{ $job := cond (eq site.Language.Lang "zh") "特聘研究员" "Distinguished Research Fellow" }}
+{{ $same := slice }}
+{{ with site.Params.orcid }}{{ $same = $same | append (printf "https://orcid.org/%s" .) }}{{ end }}
+{{ with site.Params.scholar }}{{ $same = $same | append . }}{{ end }}
 {{ $person := dict
   "@context" "https://schema.org"
   "@type" "Person"
   "name" site.Params.authorZh
   "alternateName" site.Params.authorEn
-  "url" site.BaseURL
+  "url" site.Home.Permalink
+  "image" (site.Params.portrait | absURL)
   "email" (printf "mailto:%s" site.Params.email)
   "jobTitle" $job
   "affiliation" (dict "@type" "CollegeOrUniversity" "name" site.Params.affiliation)
+  "knowsAbout" site.Params.keywords
 }}
+{{ if $same }}{{ $person = merge $person (dict "sameAs" $same) }}{{ end }}
 <script type="application/ld+json">{{ $person | jsonify | safeJS }}</script>
+{{ $siteLd := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" site.Title
+  "url" site.Home.Permalink
+  "inLanguage" site.Language.Locale
+  "description" $desc
+  "publisher" (dict "@type" "Person" "name" site.Params.authorZh)
+}}
+<script type="application/ld+json">{{ $siteLd | jsonify | safeJS }}</script>
 {{ end }}

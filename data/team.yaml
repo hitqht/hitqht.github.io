@@ -1,7 +1,11 @@
 # 照片放 static/media/team/<photo>；没有真人照片时显示 _placeholder.svg。
-# 新增成员：复制一条，改 id / 中英姓名职务简介 / photo 文件名。
+# group: faculty = 合作教师；engineer = 协作工程师。
+# 可选 years、focus_zh / focus_en、focus_url。
+# 协作工程师可再写 bio_*、works_*、github，有这些字段时会显示展开介绍卡。
 
+# ---------- 合作教师 ----------
 - id: shan-wenchen
+  group: faculty
   name_zh: 单文臣
   name_en: Shan Wenchen
   role_zh: 副教授
@@ -11,6 +15,7 @@
   photo: shan-wenchen.jpg
 
 - id: ding-yao
+  group: faculty
   name_zh: 丁尧
   name_en: Ding Yao
   role_zh: 教授
@@ -20,6 +25,7 @@
   photo: ding-yao.jpg
 
 - id: xia-yi
+  group: faculty
   name_zh: 夏毅
   name_en: Xia Yi
   role_zh: 教授
@@ -29,6 +35,7 @@
   photo: xia-yi.jpg
 
 - id: zhou-junwen
+  group: faculty
   name_zh: 周俊文
   name_en: Zhou Junwen
   role_zh: 副教授
@@ -38,6 +45,7 @@
   photo: zhou-junwen.jpg
 
 - id: xu-chengran
+  group: faculty
   name_zh: 许成然
   name_en: Xu Chengran
   role_zh: 副教授
@@ -47,6 +55,7 @@
   photo: xu-chengran.jpg
 
 - id: li-dongsheng
+  group: faculty
   name_zh: 李东声
   name_en: Li Dongsheng
   role_zh: 副教授
@@ -56,6 +65,7 @@
   photo: li-dongsheng.jpg
 
 - id: du-heli
+  group: faculty
   name_zh: 杜和醨
   name_en: Du Heli
   role_zh: 正高级工程师
@@ -65,6 +75,7 @@
   photo: du-heli.jpg
 
 - id: yin-hang
+  group: faculty
   name_zh: 尹航
   name_en: Yin Hang
   role_zh: 副教授
@@ -72,3 +83,79 @@
   bio_zh: 研究方向与简介待补充。
   bio_en: Research interests to be added.
   photo: yin-hang.jpg
+
+# ---------- 协作工程师 ----------
+- id: li-mingchun
+  group: engineer
+  name_zh: 李明春
+  name_en: Li Mingchun
+  role_zh: 协作工程师
+  role_en: Collaborating Engineer
+  photo: li-mingchun.jpg
+  bio_zh: 协作工程师，参与智能建造相关系统的研发与工程落地。
+  bio_en: Collaborating engineer working on intelligent-construction systems and their deployment.
+
+- id: lan-hao
+  group: engineer
+  name_zh: 兰昊
+  name_en: Lan Hao
+  role_zh: 协作工程师
+  role_en: Collaborating Engineer
+  photo: lan-hao.jpg
+  bio_zh: 协作工程师，参与检测与建模相关工具的开发与维护。
+  bio_en: Collaborating engineer working on inspection and modeling tools.
+
+- id: zhang-duo
+  group: engineer
+  name_zh: 张铎
+  name_en: Zhang Duo
+  role_zh: 协作工程师
+  role_en: Collaborating Engineer
+  photo: zhang-duo.jpg
+  bio_zh: 协作工程师，参与工程数据与现场应用相关开发。
+  bio_en: Collaborating engineer working on engineering data and field applications.
+
+- id: wu-haozheng
+  group: engineer
+  name_zh: 吴浩政
+  name_en: Wu Haozheng
+  role_zh: 前端开发工程师
+  role_en: Front-end Engineer
+  photo: wu-haozheng.jpg
+  github: https://github.com/nigulasi-goudan
+  bio_zh: 课题组前端开发工程师，负责智能建造相关系统的界面、交互与数据可视化，覆盖移动端检测、三维扫描分析、工程数据管理与施工协同。
+  bio_en: Front-end engineer for the lab. Builds interfaces, interaction, and data visualization for intelligent-construction tools, spanning mobile inspection, 3D scan analysis, engineering data platforms, and construction coordination.
+  works_zh:
+    - 拍可测 APP
+    - 光学扫描仪智能分析系统
+    - 数据管理系统
+    - 构部件智能检测、虚拟预拼装与进度统计一体化集成系统
+    - 结构自动建模
+    - 施工方案平台
+  works_en:
+    - Paikeci inspection app
+    - Optical-scanner analysis system
+    - Data management system
+    - Integrated component inspection, virtual pre-assembly, and progress tracking
+    - Automated structural modeling
+    - Construction scheme platform
+
+- id: wang-jing
+  group: engineer
+  name_zh: 王璟
+  name_en: Wang Jing
+  role_zh: 协作工程师
+  role_en: Collaborating Engineer
+  photo: wang-jing.jpg
+  bio_zh: 协作工程师，参与智能建造平台的功能实现与测试。
+  bio_en: Collaborating engineer working on platform features and testing.
+
+- id: wu-ruihan
+  group: engineer
+  name_zh: 武睿涵
+  name_en: Wu Ruihan
+  role_zh: 协作工程师
+  role_en: Collaborating Engineer
+  photo: wu-ruihan.jpg
+  bio_zh: 协作工程师，参与课题组软件系统的开发与支持。
+  bio_en: Collaborating engineer supporting the lab’s software systems.

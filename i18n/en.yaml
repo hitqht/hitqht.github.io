@@ -7,24 +7,33 @@ email_label: E-mail
 team: People
 publications: Publications
 publications_heading: Selected papers
-publications_note: 25 SCI papers as first or corresponding author in the past three years; a selection is listed below (* corresponding author). Click a citation to open the publisher page (DOI).
+publications_kicker: Papers
+publications_note: 25 SCI papers as first or corresponding author in the past three years; a selection is listed below (* corresponding author). Open DOI for the publisher page.
 books: Books
 books_heading: Books and textbooks
+books_kicker: Volumes
 books_note: Three scholarly monographs and one textbook.
 awards: Awards
 awards_heading: Honors and awards
+awards_kicker: Honors
 awards_note: Two provincial/ministerial science and technology awards, among others.
+awards_prize: Science and technology awards
+awards_demo: Demonstration projects
+awards_honor: Design and competitions
 research: Research
 projects: Projects
+projects_kicker: Grants
 projects_note: PI of national projects including a National Key R&D Program topic and NSFC grants.
+projects_fund: Research funding
 cv: CV
 education: Education
 experience: Appointments
 licenses: Professional credentials
-blog: Blog
-blog_note: Lab notes, paper highlights, and project updates.
-blog_empty: No posts in English yet. Switch to 中文 for the Chinese notes, or check back later.
-back_to_blog: Back to blog
+experience_kicker: Career
+education_kicker: Degrees
+licenses_kicker: Credentials
+now_label: Current
+axis_hint: Click a year to highlight that chapter. Click it again to show all.
 lang_zh: 中文
 lang_en: English
 not_translated: This page is not available in this language; you are on the language home page.
@@ -34,8 +43,30 @@ tile_pubs: Papers
 tile_books: Books
 tile_research: Projects
 tile_awards: Awards
-tile_blog: Blog
-video_missing: Video placeholder — add an mp4 under static/media/blog/ and refresh.
+hero_kicker: Intelligent Construction
+hero_role: Chongqing University · Intelligent Construction
+hero_lead: Reimagining construction with structures, data, and intelligence.
+hero_cta_papers: Selected papers
+hero_cta_research: Research
+hero_scroll: Scroll
+cta_title: Collaborate
+cta_body: Open to conversations on intelligent construction, structural intelligence, and domain models for building.
+write_email: Write an email
+latest_projects: Recent projects
+latest_papers: Recent papers
+view_all: View all
+explore: Enter
+current_members: Current members
+faculty_team: Collaborating Faculty
+engineer_team: Collaborating Engineers
+engineer_kicker: Engineer
+engineer_works: Selected work
+engineer_note: Hover or tap a portrait for a short profile.
+member_hint: View profile
+member_close: Close
+pi_role: Distinguished Research Fellow · Professor-level Senior Engineer · National Class-1 Registered Structural Engineer
+pi_affil: School of Civil Engineering, Chongqing University
+video_missing: Video placeholder — add an mp4 under static/media/ and refresh.
 page_404_title: Page not found
-page_404_body: This link may have moved. Try the home page, publications, or blog.
+page_404_body: This link may have moved. Try the home page or publications.
 page_404_home: Back to home

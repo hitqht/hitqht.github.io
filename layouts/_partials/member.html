@@ -9,33 +9,41 @@
   {{ $src = printf "media/team/%s" .member.photo | relURL }}
 {{ end }}
 {{ if .interactive }}
+{{ $sid := printf "member-%s" .member.id }}
 <article class="member-card is-pop">
-  <button type="button" class="member-face" aria-expanded="false">
+  <button type="button" class="member-face" aria-haspopup="dialog" aria-controls="{{ $sid }}" aria-expanded="false">
     <img class="member-photo" src="{{ $src }}" alt=""
          onerror="this.onerror=null;this.src='{{ .placeholder }}';">
     <div class="mname">{{ $name }}</div>
     {{ with $role }}<div class="mrole">{{ . }}</div>{{ end }}
     <span class="member-hint">{{ T "member_hint" }}</span>
   </button>
-  <div class="member-detail">
-    <img class="member-pop-photo" src="{{ $src }}" alt=""
-         onerror="this.onerror=null;this.src='{{ .placeholder }}';">
-    <p class="cv-kicker">{{ T "engineer_kicker" }}</p>
-    <h3 class="member-pop-name">{{ $name }}</h3>
-    {{ with $role }}<p class="member-pop-role">{{ . }}</p>{{ end }}
-    {{ with .member.github }}
-    <p class="member-pop-links">
-      <a class="engineer-github" href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
-    </p>
-    {{ end }}
-    {{ with $bio }}<p class="member-pop-bio">{{ . }}</p>{{ end }}
-    {{ with $works }}
-    <p class="engineer-works-label">{{ T "engineer_works" }}</p>
-    <ul class="engineer-works">
-      {{ range . }}<li>{{ . }}</li>{{ end }}
-    </ul>
-    {{ end }}
-  </div>
+  <dialog class="member-sheet" id="{{ $sid }}" aria-labelledby="{{ $sid }}-name">
+    <div class="member-sheet-card">
+      <form method="dialog" class="member-sheet-close-form">
+        <button type="submit" class="member-sheet-close" aria-label="{{ T "member_close" }}">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </form>
+      <img class="member-pop-photo" src="{{ $src }}" alt=""
+           onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+      <p class="cv-kicker">{{ T "engineer_kicker" }}</p>
+      <h3 class="member-pop-name" id="{{ $sid }}-name">{{ $name }}</h3>
+      {{ with $role }}<p class="member-pop-role">{{ . }}</p>{{ end }}
+      {{ with .member.github }}
+      <p class="member-pop-links">
+        <a class="engineer-github" href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      {{ end }}
+      {{ with $bio }}<p class="member-pop-bio">{{ . }}</p>{{ end }}
+      {{ with $works }}
+      <p class="engineer-works-label">{{ T "engineer_works" }}</p>
+      <ul class="engineer-works">
+        {{ range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{ end }}
+    </div>
+  </dialog>
 </article>
 {{ else }}
 <div class="member-card">

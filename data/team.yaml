@@ -89,11 +89,26 @@
   group: engineer
   name_zh: 李明春
   name_en: Li Mingchun
-  role_zh: 协作工程师
-  role_en: Collaborating Engineer
+  role_zh: 系统与软件研发工程师
+  role_en: Systems and Software Engineer
   photo: li-mingchun.jpg
-  bio_zh: 协作工程师，参与智能建造相关系统的研发与工程落地。
-  bio_en: Collaborating engineer working on intelligent-construction systems and their deployment.
+  github: https://github.com/MrLeeMC
+  bio_zh: 课题组系统与软件研发工程师，负责智能建造相关系统研究、软件架构设计、纵横向课题，以及智能化系统、产品与 AI 软件的软硬件工程应用开发。
+  bio_en: Systems and software engineer for the lab. Leads research and architecture for intelligent-construction systems, vertical and industry projects, and engineering of intelligent products, AI software, and hardware–software applications.
+  works_zh:
+    - 工程质量智能检测机器人
+    - 现场安全智能巡检机器人
+    - 建筑机器人技术咨询
+    - 智能建造应用咨询
+    - 科研成果转化
+    - 智能化软硬件系统集成
+  works_en:
+    - Intelligent robots for construction-quality inspection
+    - On-site safety inspection robots
+    - Construction-robotics consulting
+    - Intelligent-construction application consulting
+    - Research-to-product transfer
+    - Intelligent hardware–software system integration
 
 - id: lan-hao
   group: engineer
@@ -109,11 +124,37 @@
   group: engineer
   name_zh: 张铎
   name_en: Zhang Duo
-  role_zh: 协作工程师
-  role_en: Collaborating Engineer
+  role_zh: 机械设计工程师
+  role_en: Mechanical Design Engineer
   photo: zhang-duo.jpg
-  bio_zh: 协作工程师，参与工程数据与现场应用相关开发。
-  bio_en: Collaborating engineer working on engineering data and field applications.
+  bio_zh: 课题组机械设计工程师，负责智能建造装备本体结构研究、机械方案设计，以及建筑机器人与智能化装备样机的机械结构工程开发。
+  bio_en: Mechanical design engineer for the lab. Works on structural research and mechanical schemes for intelligent-construction equipment, construction robots, and prototype development.
+  works_zh:
+    - 工程质量智能检测机器人
+    - 现场安全智能巡检机器人
+    - 建筑机器人机械本体方案设计
+    - 传动与执行机构开发
+    - 零部件选型与三维建模
+    - 工程图纸输出
+    - 样机外协加工管控
+    - 样机装配调试
+    - 结构仿真分析
+    - 机械系统迭代优化
+    - 科研成果转化
+    - 智能化装备机电集成
+  works_en:
+    - Intelligent robots for construction-quality inspection
+    - On-site safety inspection robots
+    - Mechanical schemes for construction-robot bodies
+    - Drive and actuator development
+    - Component selection and 3D modeling
+    - Engineering drawing output
+    - Prototype outsourcing and fabrication control
+    - Prototype assembly and commissioning
+    - Structural simulation
+    - Iterative mechanical-system optimization
+    - Research-to-product transfer
+    - Electromechanical integration of intelligent equipment
 
 - id: wu-haozheng
   group: engineer
@@ -154,8 +195,19 @@
   group: engineer
   name_zh: 武睿涵
   name_en: Wu Ruihan
-  role_zh: 协作工程师
-  role_en: Collaborating Engineer
+  role_zh: 软件开发工程师
+  role_en: Software Engineer
   photo: wu-ruihan.jpg
-  bio_zh: 协作工程师，参与课题组软件系统的开发与支持。
-  bio_en: Collaborating engineer supporting the lab’s software systems.
+  github: https://github.com/wuruihan123
+  bio_zh: 课题组软件开发工程师，负责团队自研软件研发、技术宣传推广及相关系统开发。
+  bio_en: Software engineer for the lab. Develops in-house software, supports technical outreach, and builds related systems.
+  works_zh:
+    - 有限元软件研发
+    - 结构计算 Agent 应用开发
+    - 框架结构 Python SDK 库开发
+    - 微信公众号运营
+  works_en:
+    - Finite-element software development
+    - Structural-analysis agent applications
+    - Python SDK for frame structures
+    - WeChat official-account operations

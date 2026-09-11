@@ -90,30 +90,29 @@
     });
   }
 
-  const pops = document.querySelectorAll(".member-card.is-pop");
-  if (pops.length) {
-    const closePops = (except) => {
-      pops.forEach((card) => {
-        if (card === except) return;
-        card.classList.remove("is-open");
-        card.querySelector(".member-face")?.setAttribute("aria-expanded", "false");
-      });
+  document.querySelectorAll(".member-card.is-pop").forEach((card) => {
+    const btn = card.querySelector(".member-face");
+    const sheet = card.querySelector(".member-sheet");
+    if (!btn || !sheet) return;
+    document.body.appendChild(sheet);
+
+    const setOpen = (open) => {
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      card.classList.toggle("is-open", open);
     };
-    pops.forEach((card) => {
-      const btn = card.querySelector(".member-face");
-      btn?.addEventListener("click", (e) => {
-        e.preventDefault();
-        const open = !card.classList.contains("is-open");
-        closePops(open ? card : null);
-        card.classList.toggle("is-open", open);
-        btn.setAttribute("aria-expanded", open ? "true" : "false");
+
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".member-sheet[open]").forEach((other) => {
+        if (other !== sheet && typeof other.close === "function") other.close();
       });
+      if (typeof sheet.showModal === "function") sheet.showModal();
+      else sheet.setAttribute("open", "");
+      setOpen(true);
     });
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".member-card.is-pop")) closePops();
+
+    sheet.addEventListener("close", () => setOpen(false));
+    sheet.addEventListener("click", (e) => {
+      if (e.target === sheet) sheet.close();
     });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closePops();
-    });
-  }
+  });
 })();

@@ -1333,7 +1333,6 @@ ol.list li::before {
   transition: transform .35s var(--ease);
 }
 .member-card:hover { transform: translateY(-6px); box-shadow: none; }
-.member-card.is-pop:hover { transform: none; }
 .member-photo {
   width: 168px;
   height: 168px;
@@ -1348,7 +1347,8 @@ ol.list li::before {
   transition: transform .45s var(--ease), box-shadow .45s ease;
 }
 .member-card:not(.is-pop):hover .member-photo,
-.member-card.is-pop .member-face:hover .member-photo {
+.member-card.is-pop .member-face:hover .member-photo,
+.member-face:focus-visible .member-photo {
   transform: scale(1.05);
   box-shadow: 0 16px 36px rgba(10, 16, 28, .18);
 }
@@ -1399,55 +1399,101 @@ ol.list li::before {
 }
 .member-hint {
   display: inline-block;
-  margin-top: 8px;
-  font-size: 11px;
-  letter-spacing: .12em;
+  margin-top: 10px;
+  font-size: 12px;
+  letter-spacing: .08em;
   color: var(--accent-dim);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .25s ease, transform .25s var(--ease);
+  opacity: .78;
+  transition: opacity .2s ease, color .2s ease;
+}
+.member-hint::after {
+  content: " →";
+  letter-spacing: 0;
 }
 .member-card.is-pop:hover .member-hint,
 .member-card.is-pop.is-open .member-hint,
 .member-face:focus-visible .member-hint {
   opacity: 1;
-  transform: none;
+  color: var(--link);
 }
-.member-card.is-pop { position: relative; z-index: 1; }
-.member-card.is-pop:hover,
-.member-card.is-pop.is-open { z-index: 26; }
-.member-detail {
-  position: absolute;
-  left: 50%;
-  top: 8px;
-  width: min(360px, 86vw);
-  padding: 22px 22px 20px;
+.member-card.is-pop.is-open .member-photo {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--accent);
+}
+.member-sheet {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-width: none;
+  max-height: none;
+}
+.member-sheet[open] {
+  display: grid;
+  place-items: center;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 28px 16px;
+}
+.member-sheet::backdrop {
+  background: rgba(8, 12, 20, .52);
+  backdrop-filter: blur(12px) saturate(1.15);
+}
+.member-sheet[open]::backdrop {
+  animation: member-backdrop-in .28s ease;
+}
+.member-sheet-card {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: calc(100vh - 56px);
+  overflow: auto;
+  padding: 32px 28px 26px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: var(--shadow);
+  border-radius: 24px;
+  box-shadow: 0 28px 80px rgba(8, 14, 28, .28);
   text-align: left;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translate(-50%, 10px) scale(.96);
-  transition: opacity .22s ease, transform .22s var(--ease), visibility .22s;
+  animation: member-sheet-in .36s var(--ease);
 }
-.member-card.is-pop:hover .member-detail,
-.member-card.is-pop:focus-within .member-detail,
-.member-card.is-pop.is-open .member-detail {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translate(-50%, 0) scale(1);
+.member-sheet-close-form {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  margin: 0;
+  z-index: 1;
+}
+.member-sheet-close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #eef1f5;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.member-sheet-close:hover,
+.member-sheet-close:focus-visible {
+  background: #e2e7ee;
+}
+@keyframes member-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes member-sheet-in {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to { opacity: 1; transform: none; }
 }
 .member-pop-photo {
-  width: 84px;
-  height: 84px;
+  width: 96px;
+  height: 96px;
   object-fit: cover;
   border-radius: 50%;
   display: block;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
   box-shadow: 0 10px 24px rgba(10, 16, 28, .12);
 }
 .member-detail .cv-kicker { margin: 0 0 4px; text-align: center; }
@@ -1613,7 +1659,8 @@ footer a { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero-grid, .hero-glow, .scroll-cue,
-  .hero .kicker, .hero .brand, .hero .lead, .hero .chips, .hero-cta, .hero-role {
+  .hero .kicker, .hero .brand, .hero .lead, .hero .chips, .hero-cta, .hero-role,
+  .member-sheet[open]::backdrop, .member-sheet-card {
     animation: none;
   }
   .reveal, .tile, .member-card, .post-item, .pi-card, .feed-item, ol.list li, table.info tr, .featured, .timeline li, .cv-creds li, .proj-card, .book-card, .pub-card, .award-card, .engineer-feature {

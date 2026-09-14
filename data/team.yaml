@@ -1,7 +1,23 @@
-# 照片放 static/media/team/<photo>；没有真人照片时显示 _placeholder.svg。
-# group: faculty = 合作教师；engineer = 协作工程师。
-# 可选 years、focus_zh / focus_en、focus_url。
-# 协作工程师可再写 bio_*、works_*、github，有这些字段时会显示展开介绍卡。
+# 团队成员（data/team.yaml）
+# 每条一个人。照片放 static/media/team/<photo>；没有文件时显示剪影。
+# 课题负责人齐宏拓不写在本文件，由站点配置自动显示。
+#
+# id          唯一标识，小写英文和连字符，如 wu-haozheng
+# group       分组：faculty 合作教师 / engineer 协作工程师
+# name_zh     中文姓名
+# name_en     英文姓名
+# role_zh     职务中文，如「副教授」「机械设计工程师」
+# role_en     职务英文
+# photo       照片文件名（不含目录）
+# years       在组时间（可选），如 2023–Present
+# focus_zh    教师卡底部关注点中文（可选）
+# focus_en    教师卡底部关注点英文（可选）
+# focus_url   关注点链接（可选；有则做成可点击）
+# bio_zh      简介中文（工程师点击头像后显示）
+# bio_en      简介英文
+# works_zh    主要工作中文列表（可选）
+# works_en    主要工作英文列表（可选）
+# github      GitHub 主页地址（可选）
 
 # ---------- 合作教师 ----------
 - id: shan-wenchen

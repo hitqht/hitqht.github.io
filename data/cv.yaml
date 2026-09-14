@@ -1,3 +1,21 @@
+# 个人履历（data/cv.yaml）
+# 分三块：education 教育背景 / experience 工作经历 / licenses 执业资格
+#
+# education:
+#   when     起止时间，如 2011.03 – 2014.05（中英共用）
+#   zh       学历中文，建议「学校 学院，学位」
+#   en       学历英文
+#
+# experience:
+#   when_zh  起止时间中文，在任写「至今」
+#   when_en  起止时间英文，在任写 present
+#   zh       经历中文，建议「单位，职务」
+#   en       经历英文
+#
+# licenses:
+#   zh       资格中文
+#   en       资格英文
+
 education:
   - when: "2011.03 – 2014.05"
     zh: 哈尔滨工业大学 土木工程学院，博士

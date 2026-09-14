@@ -1,4 +1,15 @@
-# group: prize 科技奖励 / demo 示范工程 / honor 设计与竞赛
+# 奖励荣誉（data/awards.yaml）
+# 每条一条记录。页面按 group 分成三块展示。
+#
+# group      分类：prize 科技奖励 / demo 示范工程 / honor 设计与竞赛
+# year       获奖年份（可选；示范工程等可不填）
+# title_zh   奖项中文名称
+# title_en   奖项英文名称
+# work_zh    对应成果/项目中文名（可选）
+# work_en    对应成果/项目英文名（可选）
+# role_zh    本人角色中文，如「排名第 2」「项目负责人」
+# role_en    本人角色英文
+
 - group: prize
   year: 2018
   title_zh: 重庆市科学技术进步一等奖

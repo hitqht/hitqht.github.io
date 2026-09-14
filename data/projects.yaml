@@ -1,4 +1,19 @@
-# 按 year 从新到旧展示。role: pi 主持 / campus 校内负责人 / topic 课题负责人
+# 科研项目（data/projects.yaml）
+# 每条一个项目。页面按 year 从新到旧分组。
+#
+# year        立项/展示年份
+# source_zh   资助来源中文，如「国家自然科学基金面上项目」
+# source_en   资助来源英文
+# title_zh    课题名称中文（页面会自动加书名号）
+# title_en    课题名称英文
+# amount_zh   本人/本校科研经费中文，如「390 万」
+# amount_en   本人/本校科研经费英文，如 CNY 3.90M
+# total_zh    项目总经费中文（可选，联合项目时用）
+# total_en    项目总经费英文（可选）
+# role        角色类型，用于样式：pi 主持 / campus 校内负责人 / topic 课题负责人
+# role_zh     角色中文展示文案
+# role_en     角色英文展示文案
+
 - year: 2025
   amount_zh: "390 万"
   amount_en: "CNY 3.90M"

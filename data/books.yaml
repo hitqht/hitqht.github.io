@@ -1,3 +1,14 @@
+# 学术专著（data/books.yaml）
+# 每条一本书。顺序即页面显示顺序。
+#
+# authors_zh    作者中文，顿号分隔
+# authors_en    作者英文，逗号分隔
+# title_zh      书名中文（页面会自动加书名号）
+# title_en      书名英文
+# publisher_zh  出版社中文
+# publisher_en  出版社英文
+# year          出版年份
+
 - authors_zh: 齐宏拓，丁尧，刘界鹏，周绪红，刘鹏坤，李明春
   authors_en: Qi Hongtuo, Ding Yao, Liu Jiepeng, Zhou Xuhong, Liu Pengkun, Li Mingchun
   title_zh: 深度学习在建筑工程中的应用

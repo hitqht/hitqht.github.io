@@ -9,7 +9,6 @@
   {{ $latest := 0 }}
   {{ range $items }}{{ if gt .year $latest }}{{ $latest = .year }}{{ end }}{{ end }}
   <section class="pub-block">
-    <p class="cv-kicker">{{ T "publications_kicker" }}</p>
     {{ $note := or .Params.note (T "publications_note") }}
     <p class="note">{{ $note }}</p>
     <div class="pub-tools" id="pub-tools" hidden>
@@ -105,7 +104,6 @@
 
 {{ else if eq .Params.kind "books" }}
   <section class="book-block">
-    <p class="cv-kicker">{{ T "books_kicker" }}</p>
     {{ with or .Params.note (T "books_note") }}<p class="note">{{ . }}</p>{{ end }}
     <div class="book-grid">
       {{ range hugo.Data.books }}
@@ -130,7 +128,6 @@
 
 {{ else if eq .Params.kind "awards" }}
   <section class="award-block">
-    <p class="cv-kicker">{{ T "awards_kicker" }}</p>
     {{ with or .Params.note (T "awards_note") }}<p class="note">{{ . }}</p>{{ end }}
     {{ range $g := slice "prize" "demo" "honor" }}
     {{ $list := where hugo.Data.awards "group" $g }}
@@ -156,13 +153,12 @@
   </section>
 
 {{ else if eq .Params.kind "research" }}
-  {{ .Content }}
+  <section class="research-dirs">{{ replace (replace (replace .Content "</strong>：" "</strong>") "</strong>: " "</strong>") "</strong>:" "</strong>" | safeHTML }}</section>
   {{ $items := hugo.Data.projects }}
   {{ $n := len $items }}
   {{ $latest := 0 }}
   {{ range $items }}{{ if gt .year $latest }}{{ $latest = .year }}{{ end }}{{ end }}
   <section class="proj-block">
-    <p class="cv-kicker">{{ T "projects_kicker" }}</p>
     <h2 class="cv-heading">{{ T "projects" }}</h2>
     {{ with or .Params.projects_note (T "projects_note") }}<p class="note">{{ . }}</p>{{ end }}
     <div class="proj-board">
@@ -213,8 +209,6 @@
   {{ $years = sort (uniq $years) }}
   {{ $latest := "" }}{{ with last 1 $years }}{{ $latest = index . 0 }}{{ end }}
   <section class="cv-block cv-axis-block">
-    <p class="cv-kicker">Timeline</p>
-    <h2 class="cv-heading">{{ T "cv" }}</h2>
     <p class="note">{{ T "axis_hint" }}</p>
     <div class="cv-axis-wrap">
       <div class="cv-axis" id="cv-axis" role="list" data-latest="{{ $latest }}">
@@ -228,7 +222,6 @@
     </div>
   </section>
   <section class="cv-block">
-    <p class="cv-kicker">{{ T "experience_kicker" }}</p>
     <h2 class="cv-heading">{{ T "experience" }}</h2>
     <ol class="timeline">
       {{ range $i, $item := hugo.Data.cv.experience }}
@@ -258,7 +251,6 @@
     </ol>
   </section>
   <section class="cv-block">
-    <p class="cv-kicker">{{ T "education_kicker" }}</p>
     <h2 class="cv-heading">{{ T "education" }}</h2>
     <ol class="timeline">
       {{ range hugo.Data.cv.education }}
@@ -284,7 +276,6 @@
     </ol>
   </section>
   <section class="cv-block">
-    <p class="cv-kicker">{{ T "licenses_kicker" }}</p>
     <h2 class="cv-heading">{{ T "licenses" }}</h2>
     <ul class="cv-creds">
       {{ range hugo.Data.cv.licenses }}

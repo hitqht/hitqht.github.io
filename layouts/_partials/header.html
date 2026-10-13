@@ -1,5 +1,4 @@
 {{ $hasPhoto := fileExists "static/media/misc/banner.jpg" }}
-{{ $banner := dict }}{{ if $hasPhoto }}{{ $banner = partial "bgimg.html" "media/misc/banner.jpg" }}{{ end }}
 {{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
 <a class="skip-link" href="#home-start">{{ T "skip_to_content" }}</a>
 <div class="read-progress" id="read-progress" hidden></div>
@@ -33,20 +32,14 @@
   </div>
 </nav>
 {{ if .IsHome }}
-<header class="hero{{ if $hasPhoto }} has-photo{{ end }}" id="hero"{{ with $banner.lg }} style="--hero-img: url('{{ . }}'); --hero-img-sm: url('{{ $banner.sm }}')"{{ end }}>
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
-  <div class="hero-spot" aria-hidden="true"></div>
-  <div class="hero-noise" aria-hidden="true"></div>
+<header class="hero" id="hero">
   <div class="hero-inner">
-    <p class="kicker">{{ T "hero_kicker" }}</p>
     <h1 class="brand">{{ $author }}</h1>
     <p class="hero-role">{{ T "hero_role" }}</p>
     <p class="lead">{{ T "hero_lead" }}</p>
     {{ with site.Params.keywords }}
-    <ul class="chips">
-      {{ range . }}<li>{{ . }}</li>{{ end }}
+    <ul class="chips" aria-label="{{ T "keywords" }}">
+      {{ range $i, $k := . }}<li class="chip-{{ add (mod $i 5) 1 }}">{{ $k }}</li>{{ end }}
     </ul>
     {{ end }}
     <div class="hero-cta">
@@ -58,25 +51,32 @@
       {{ end }}
     </div>
   </div>
-  <a class="scroll-cue" href="#home-start">{{ T "hero_scroll" }}</a>
+  {{ if $hasPhoto }}
+  <figure class="hero-art">
+    {{ partial "img.html" (dict "src" "media/misc/banner.jpg" "alt" "" "widths" (slice 800 1400 2000) "sizes" "(max-width: 1180px) 100vw, 1140px" "eager" true) }}
+  </figure>
+  {{ end }}
 </header>
 {{ else }}
 {{ $heroKey := "" }}
 {{ with .Params.kind }}{{ $heroKey = . }}{{ end }}
-{{ $hero := dict }}
+{{ $heroPath := "" }}
 {{ if $heroKey }}
-  {{ $heroFile := printf "static/media/misc/hero-%s.jpg" $heroKey }}
-  {{ if fileExists $heroFile }}
-    {{ $hero = partial "bgimg.html" (printf "media/misc/hero-%s.jpg" $heroKey) }}
+  {{ if fileExists (printf "static/media/misc/hero-%s.jpg" $heroKey) }}
+    {{ $heroPath = printf "media/misc/hero-%s.jpg" $heroKey }}
   {{ end }}
 {{ end }}
-<header class="page-hero{{ if $hero.lg }} has-photo{{ end }}"{{ with $hero.lg }} style="--page-hero-img: url('{{ . }}'); --page-hero-img-sm: url('{{ $hero.sm }}')"{{ end }}>
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <p class="kicker">{{ T "hero_kicker" }}</p>
-    <h1>{{ if eq .Kind "404" }}{{ T "page_404_title" }}{{ else }}{{ .Title }}{{ end }}</h1>
-    {{ with or .Description .Params.description }}<p class="lead">{{ . }}</p>{{ end }}
+<header class="page-hero{{ if $heroPath }} has-art{{ end }}">
+  <div class="page-hero-inner">
+    <div class="page-hero-copy">
+      <h1>{{ if eq .Kind "404" }}{{ T "page_404_title" }}{{ else }}{{ .Title }}{{ end }}</h1>
+      {{ with or .Description .Params.description }}<p class="lead">{{ . }}</p>{{ end }}
+    </div>
+    {{ with $heroPath }}
+    <figure class="page-hero-art">
+      {{ partial "img.html" (dict "src" . "alt" "" "widths" (slice 480 800 1200) "sizes" "(max-width: 760px) 100vw, 480px" "eager" true) }}
+    </figure>
+    {{ end }}
   </div>
 </header>
 {{ end }}

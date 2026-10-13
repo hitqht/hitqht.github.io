@@ -28,7 +28,6 @@
         </button>
       </form>
       {{ if $path }}{{ partial "img.html" (dict "src" $path "class" "member-pop-photo" "alt" "" "widths" (slice 200) "sizes" "96px" "fallback" $phPath) }}{{ else }}<img class="member-pop-photo" src="{{ $src }}" alt="" width="96" height="96">{{ end }}
-      <p class="cv-kicker">{{ T "engineer_kicker" }}</p>
       <h3 class="member-pop-name" id="{{ $sid }}-name">{{ $name }}</h3>
       {{ with $role }}<p class="member-pop-role">{{ . }}</p>{{ end }}
       {{ with .member.github }}

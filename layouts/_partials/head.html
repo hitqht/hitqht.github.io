@@ -1,6 +1,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#06090f">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
 {{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
 {{ $pageTitle := .Title }}
@@ -53,18 +53,10 @@
 <meta name="twitter:title" content="{{ if .IsHome }}{{ $pageTitle }}{{ else }}{{ .Title }}{{ end }}">
 <meta name="twitter:description" content="{{ $desc }}">
 <meta name="twitter:image" content="{{ $ogImg }}">
-<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-{{/* 网页字体异步加载：先用系统字体立即显示，字体到了再替换，不阻塞首屏 */}}
-{{ $fonts := "https://fonts.bunny.net/css?family=noto-sans-sc:400,500,600,700|noto-serif-sc:600,700|source-serif-4:600,700|space-grotesk:500,600,700&display=swap" }}
-<link rel="stylesheet" href="{{ $fonts }}" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ $fonts }}"></noscript>
+{{/* 只用系统字体（苹方 / SF / 微软雅黑），不依赖外部字体服务，国内访问更快 */}}
 <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 <script src="{{ "js/site.js" | relURL }}" defer></script>
-{{ if and .IsHome (fileExists "static/media/misc/banner.jpg") }}
-{{ $b := partial "bgimg.html" "media/misc/banner.jpg" }}
-<link rel="preload" as="image" href="{{ $b.lg }}" media="(min-width: 761px)" fetchpriority="high">
-<link rel="preload" as="image" href="{{ $b.sm }}" media="(max-width: 760px)" fetchpriority="high">
-{{ end }}
+
 {{ if .IsHome }}
 {{ $job := cond (eq site.Language.Lang "zh") "特聘研究员" "Distinguished Research Fellow" }}
 {{ $same := slice }}

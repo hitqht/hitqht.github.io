@@ -44,7 +44,7 @@ tile_books: Books
 tile_research: Projects
 tile_awards: Awards
 hero_kicker: Intelligent Construction
-hero_role: Chongqing University · Intelligent Construction
+hero_role: Distinguished Research Fellow, School of Civil Engineering, Chongqing University
 hero_lead: Reimagining construction with structures, data, and intelligence.
 hero_cta_papers: Selected papers
 hero_cta_research: Research
@@ -79,3 +79,6 @@ cite: Cite
 cite_copy: Copy citation
 bibtex_copy: Copy BibTeX
 copied: Copied
+tile_research_desc: Prefabrication, domain LLMs for construction, intelligent design, inspection and robotics.
+tile_pubs_desc: Selected SCI papers as first or corresponding author, searchable and ready to cite.
+tile_team_desc: Collaborating faculty and engineering team.

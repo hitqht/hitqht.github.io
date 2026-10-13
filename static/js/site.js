@@ -116,3 +116,94 @@
     });
   });
 })();
+
+/* ---------- 论文检索 + 复制引用 ---------- */
+(() => {
+  const board = document.querySelector(".pub-board");
+  if (!board) return;
+  const cards = Array.from(board.querySelectorAll(".pub-card"));
+  const groups = Array.from(board.querySelectorAll(".pub-year-group"));
+  const tools = document.getElementById("pub-tools");
+  const input = document.getElementById("pub-search");
+  const count = document.getElementById("pub-count");
+  const none = document.getElementById("pub-none");
+  const lang = board.dataset.lang;
+
+  if (tools && input) {
+    tools.hidden = false;
+    const norm = (s) => (s || "").toLowerCase().replace(/\s+/g, " ");
+    const hay = cards.map((c) => norm([c.dataset.title, c.dataset.authors, c.dataset.journal, c.dataset.year].join(" ")));
+    const apply = () => {
+      const terms = norm(input.value).trim().split(" ").filter(Boolean);
+      let shown = 0;
+      cards.forEach((c, i) => {
+        const ok = terms.every((t) => hay[i].includes(t));
+        c.hidden = !ok;
+        if (ok) { shown++; c.classList.add("is-in"); }
+      });
+      groups.forEach((g) => { g.hidden = !g.querySelector(".pub-card:not([hidden])"); });
+      if (count) count.textContent = `${shown} ${count.dataset.unit}`;
+      if (none) none.hidden = shown > 0;
+    };
+    input.addEventListener("input", apply);
+    const q = new URLSearchParams(location.search).get("q");
+    if (q) { input.value = q; apply(); }
+  }
+
+  // 作者 "Wang Yu, Qi Hongtuo*, et al." → 列表
+  const authorList = (s) => (s || "").split(",").map((a) => a.replace(/\*/g, "").trim()).filter(Boolean);
+  // "2025, 68: 103702" → {volume, pages}；"2025: 114105" → {pages}
+  const parseRest = (rest) => {
+    const out = {};
+    const m = (rest || "").match(/^\s*\d{4}\s*(?:,\s*([^:]+))?\s*(?::\s*(.+))?$/);
+    if (m) { if (m[1]) out.volume = m[1].trim(); if (m[2]) out.pages = m[2].trim(); }
+    return out;
+  };
+  const toText = (d) => {
+    const au = authorList(d.authors).join(", ").replace(/\.$/, "");
+    const doi = d.doi ? ` https://doi.org/${d.doi}` : "";
+    return lang === "zh"
+      ? `${au}. ${d.title}[J]. ${d.journal}, ${d.rest || d.year}.${doi}`
+      : `${au} (${d.year}). ${d.title}. ${d.journal}${d.rest ? `, ${d.rest.replace(/^\d{4}\s*[,:]\s*/, "")}` : ""}.${doi}`;
+  };
+  const toBib = (d) => {
+    const names = authorList(d.authors).map((a) => {
+      if (/^et al\.?$/i.test(a)) return "others";
+      const parts = a.split(/\s+/);
+      return parts.length > 1 ? `${parts[0]}, ${parts.slice(1).join(" ")}` : a;
+    });
+    const first = (names[0] || "anon").split(",")[0].toLowerCase().replace(/[^a-z]/g, "");
+    const word = (d.title.match(/[A-Za-z]{4,}/) || ["paper"])[0].toLowerCase();
+    const r = parseRest(d.rest);
+    const f = [
+      `  title   = {${d.title}}`,
+      `  author  = {${names.join(" and ")}}`,
+      `  journal = {${d.journal}}`,
+      `  year    = {${d.year}}`,
+    ];
+    if (r.volume) f.push(`  volume  = {${r.volume}}`);
+    if (r.pages) f.push(`  pages   = {${r.pages}}`);
+    if (d.doi) f.push(`  doi     = {${d.doi}}`);
+    return `@article{${first}${d.year}${word},\n${f.join(",\n")}\n}`;
+  };
+  const copy = async (text) => {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); return ok;
+  };
+  board.querySelectorAll(".pub-actions").forEach((el) => { el.hidden = false; });
+  board.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".pub-cite");
+    if (!btn) return;
+    const d = btn.closest(".pub-card").dataset;
+    const ok = await copy(btn.dataset.fmt === "bibtex" ? toBib(d) : toText(d));
+    if (!ok) return;
+    const label = btn.textContent;
+    btn.textContent = board.dataset.copied;
+    btn.classList.add("is-done");
+    setTimeout(() => { btn.textContent = label; btn.classList.remove("is-done"); }, 1600);
+  });
+})();

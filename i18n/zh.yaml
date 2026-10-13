@@ -70,3 +70,12 @@ video_missing: 视频占位：请将 mp4 文件放入 static/media/ 后刷新页
 page_404_title: 页面不存在
 page_404_body: 链接可能已更新。请从首页进入，或查看发表论文。
 page_404_home: 返回首页
+skip_to_content: 跳到正文
+last_updated: 更新于
+pub_search: 搜索题目、作者或期刊
+pub_count: 篇
+pub_none: 没有匹配的论文。
+cite: 引用
+cite_copy: 复制引用
+bibtex_copy: 复制 BibTeX
+copied: 已复制

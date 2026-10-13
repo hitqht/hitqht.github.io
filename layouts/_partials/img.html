@@ -1,0 +1,31 @@
+{{- /*
+  响应式图片：把 static/ 下的 JPG/PNG 自动压缩成多种宽度的 WebP（构建时完成，原图不动）。
+  用法：{{ partial "img.html" (dict "src" "media/misc/x.jpg" "alt" "说明" "widths" (slice 480 960) "sizes" "100vw" "class" "..." "eager" false "fallback" "media/..svg") }}
+  找不到文件或是 SVG 时，原样输出 <img>。
+*/ -}}
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $widths := .widths | default (slice 480 800 1200) -}}
+{{- $sizes := .sizes | default "100vw" -}}
+{{- $loading := cond (.eager | default false) "eager" "lazy" -}}
+{{- $fetch := cond (.eager | default false) "high" "auto" -}}
+{{- $fallback := .fallback -}}
+{{- $r := resources.Get $src -}}
+{{- if and $r (in (slice "jpeg" "png") $r.MediaType.SubType) -}}
+  {{- $set := slice -}}
+  {{- $largest := "" -}}
+  {{- range $widths -}}
+    {{- if le . $r.Width -}}
+      {{- $img := $r.Resize (printf "%dx webp q78 Lanczos" .) -}}
+      {{- $set = $set | append (printf "%s %dw" $img.RelPermalink $img.Width) -}}
+      {{- $largest = $img -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $largest -}}
+    {{- $largest = $r.Resize (printf "%dx webp q78" $r.Width) -}}
+    {{- $set = slice (printf "%s %dw" $largest.RelPermalink $largest.Width) -}}
+  {{- end -}}
+<img{{ with .class }} class="{{ . }}"{{ end }} src="{{ $largest.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ $sizes }}" width="{{ $largest.Width }}" height="{{ $largest.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ if eq $loading "eager" }} fetchpriority="{{ $fetch }}"{{ end }}{{ with $fallback }} onerror="this.onerror=null;this.removeAttribute('srcset');this.src='{{ . | relURL }}';"{{ end }}>
+{{- else -}}
+<img{{ with .class }} class="{{ . }}"{{ end }} src="{{ $src | relURL }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $fallback }} onerror="this.onerror=null;this.src='{{ . | relURL }}';"{{ end }}>
+{{- end -}}

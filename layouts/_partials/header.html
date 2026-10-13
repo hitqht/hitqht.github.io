@@ -1,5 +1,7 @@
 {{ $hasPhoto := fileExists "static/media/misc/banner.jpg" }}
+{{ $banner := dict }}{{ if $hasPhoto }}{{ $banner = partial "bgimg.html" "media/misc/banner.jpg" }}{{ end }}
 {{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
+<a class="skip-link" href="#home-start">{{ T "skip_to_content" }}</a>
 <div class="read-progress" id="read-progress" hidden></div>
 <nav class="site-nav" id="site-nav">
   <div class="nav-inner">
@@ -31,7 +33,7 @@
   </div>
 </nav>
 {{ if .IsHome }}
-<header class="hero{{ if $hasPhoto }} has-photo{{ end }}" id="hero">
+<header class="hero{{ if $hasPhoto }} has-photo{{ end }}" id="hero"{{ with $banner.lg }} style="--hero-img: url('{{ . }}'); --hero-img-sm: url('{{ $banner.sm }}')"{{ end }}>
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
@@ -61,14 +63,14 @@
 {{ else }}
 {{ $heroKey := "" }}
 {{ with .Params.kind }}{{ $heroKey = . }}{{ end }}
-{{ $heroURL := "" }}
+{{ $hero := dict }}
 {{ if $heroKey }}
   {{ $heroFile := printf "static/media/misc/hero-%s.jpg" $heroKey }}
   {{ if fileExists $heroFile }}
-    {{ $heroURL = printf "media/misc/hero-%s.jpg" $heroKey | relURL }}
+    {{ $hero = partial "bgimg.html" (printf "media/misc/hero-%s.jpg" $heroKey) }}
   {{ end }}
 {{ end }}
-<header class="page-hero{{ if $heroURL }} has-photo{{ end }}"{{ if $heroURL }} style="--page-hero-img: url('{{ $heroURL }}')"{{ end }}>
+<header class="page-hero{{ if $hero.lg }} has-photo{{ end }}"{{ with $hero.lg }} style="--page-hero-img: url('{{ . }}'); --page-hero-img-sm: url('{{ $hero.sm }}')"{{ end }}>
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-inner">

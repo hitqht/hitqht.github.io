@@ -1,0 +1,17 @@
+{{- /*
+  背景大图：返回 dict{lg, sm}（压缩后的 WebP 地址）。文件不存在返回空 dict。
+  用法：{{ $bg := partial "bgimg.html" "media/misc/banner.jpg" }}
+*/ -}}
+{{- $out := dict -}}
+{{- with resources.Get . -}}
+  {{- if in (slice "jpeg" "png") .MediaType.SubType -}}
+    {{- $lgW := cond (gt .Width 1600) 1600 .Width -}}
+    {{- $smW := cond (gt .Width 800) 800 .Width -}}
+    {{- $lg := .Resize (printf "%dx webp q76 Lanczos" $lgW) -}}
+    {{- $sm := .Resize (printf "%dx webp q72 Lanczos" $smW) -}}
+    {{- $out = dict "lg" $lg.RelPermalink "sm" $sm.RelPermalink -}}
+  {{- else -}}
+    {{- $out = dict "lg" .RelPermalink "sm" .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

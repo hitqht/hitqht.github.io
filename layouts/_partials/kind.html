@@ -12,7 +12,12 @@
     <p class="cv-kicker">{{ T "publications_kicker" }}</p>
     {{ $note := or .Params.note (T "publications_note") }}
     <p class="note">{{ $note }}</p>
-    <div class="pub-board">
+    <div class="pub-tools" id="pub-tools" hidden>
+      <input type="search" class="pub-search" id="pub-search" placeholder="{{ T "pub_search" }}" aria-label="{{ T "pub_search" }}" autocomplete="off">
+      <span class="pub-count" id="pub-count" data-unit="{{ T "pub_count" }}" aria-live="polite">{{ $n }} {{ T "pub_count" }}</span>
+    </div>
+    <p class="pub-none" id="pub-none" hidden>{{ T "pub_none" }}</p>
+    <div class="pub-board" data-lang="{{ $lang }}" data-copied="{{ T "copied" }}">
       {{ range $i, $p := $items }}
       {{ $prevYear := 0 }}
       {{ if gt $i 0 }}{{ with index $items (sub $i 1) }}{{ $prevYear = .year }}{{ end }}{{ end }}
@@ -30,7 +35,7 @@
         <div class="pub-year">{{ $p.year }}</div>
         <div class="pub-year-items">
       {{ end }}
-          <article class="pub-card">
+          <article class="pub-card" data-authors="{{ $p.authors }}" data-title="{{ $title }}" data-journal="{{ $p.journal }}" data-rest="{{ $p.rest }}" data-year="{{ $p.year }}" data-doi="{{ $p.doi }}">
             <div class="pub-head">
               <p class="pub-venue"><i>{{ $p.journal }}</i>{{ with $p.rest }} <span class="pub-rest">{{ . }}</span>{{ end }}</p>
               {{ with $p.doi }}
@@ -39,6 +44,10 @@
             </div>
             <h3 class="pub-title">{{ $title }}</h3>
             <p class="pub-authors">{{ $au | safeHTML }}</p>
+            <div class="pub-actions" hidden>
+              <button type="button" class="pub-cite" data-fmt="text">{{ T "cite_copy" }}</button>
+              <button type="button" class="pub-cite" data-fmt="bibtex">{{ T "bibtex_copy" }}</button>
+            </div>
           </article>
       {{ if ne $p.year $nextYear }}
         </div>
@@ -49,23 +58,26 @@
   </section>
   {{ $ld := slice }}
   {{ range $items }}
-    {{ $ld = $ld | append (dict
-      "@context" "https://schema.org"
+    {{ $people := slice }}
+    {{ range split .authors ", " }}
+      {{ $nm := trim (replace . "*" "") " " }}
+      {{ if and $nm (ne $nm "et al.") }}{{ $people = $people | append (dict "@type" "Person" "name" $nm) }}{{ end }}
+    {{ end }}
+    {{ $art := dict
       "@type" "ScholarlyArticle"
       "headline" (or .title_full .title)
-      "author" .authors
+      "author" $people
       "datePublished" (printf "%d" .year)
-      "identifier" (printf "https://doi.org/%s" .doi)
-      "url" (printf "https://doi.org/%s" .doi)
-    ) }}
+      "isPartOf" (dict "@type" "Periodical" "name" .journal)
+    }}
+    {{ with .doi }}{{ $art = merge $art (dict "identifier" (printf "https://doi.org/%s" .) "url" (printf "https://doi.org/%s" .) "sameAs" (printf "https://doi.org/%s" .)) }}{{ end }}
+    {{ $ld = $ld | append $art }}
   {{ end }}
-  <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+  <script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $ld | jsonify | safeJS }}</script>
 
 {{ else if eq .Params.kind "team" }}
   <div class="pi-card">
-    <img src="{{ site.Params.portrait | relURL }}"
-         alt="{{ if eq $lang "zh" }}{{ $selfZh }}{{ else }}{{ $selfEn }}{{ end }}"
-         onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
+    {{ partial "img.html" (dict "src" site.Params.portrait "alt" (cond (eq $lang "zh") $selfZh $selfEn) "widths" (slice 240 400) "sizes" "176px" "fallback" site.Params.portraitFallback) }}
     <div class="pi-meta">
       <div class="mname">{{ if eq $lang "zh" }}{{ $selfZh }}{{ else }}{{ $selfEn }}{{ end }}</div>
       <div class="mrole">{{ T "pi_role" }}</div>
@@ -74,6 +86,7 @@
         <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
         {{ with site.GetPage "/cv" }} · <a href="{{ .RelPermalink }}">{{ T "cv" }}</a>{{ end }}
       </p>
+      {{ partial "profiles.html" (dict "class" "bio-links pi-profiles") }}
     </div>
   </div>
   <h2 class="team-heading">{{ T "faculty_team" }}</h2>

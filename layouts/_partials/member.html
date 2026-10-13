@@ -5,15 +5,17 @@
 {{ $focus := cond (eq .lang "zh") .member.focus_zh .member.focus_en }}
 {{ $file := printf "static/media/team/%s" .member.photo }}
 {{ $src := .placeholder }}
+{{ $path := "" }}
 {{ if and .member.photo (fileExists $file) }}
-  {{ $src = printf "media/team/%s" .member.photo | relURL }}
+  {{ $path = printf "media/team/%s" .member.photo }}
+  {{ $src = $path | relURL }}
 {{ end }}
+{{ $phPath := site.Params.teamPlaceholder }}
 {{ if .interactive }}
 {{ $sid := printf "member-%s" .member.id }}
 <article class="member-card is-pop">
   <button type="button" class="member-face" aria-haspopup="dialog" aria-controls="{{ $sid }}" aria-expanded="false">
-    <img class="member-photo" src="{{ $src }}" alt=""
-         onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+    {{ if $path }}{{ partial "img.html" (dict "src" $path "class" "member-photo" "alt" "" "widths" (slice 200 340) "sizes" "168px" "fallback" $phPath) }}{{ else }}<img class="member-photo" src="{{ $src }}" alt="" width="168" height="168">{{ end }}
     <div class="mname">{{ $name }}</div>
     {{ with $role }}<div class="mrole">{{ . }}</div>{{ end }}
     <span class="member-hint">{{ T "member_hint" }}</span>
@@ -25,8 +27,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </form>
-      <img class="member-pop-photo" src="{{ $src }}" alt=""
-           onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+      {{ if $path }}{{ partial "img.html" (dict "src" $path "class" "member-pop-photo" "alt" "" "widths" (slice 200) "sizes" "96px" "fallback" $phPath) }}{{ else }}<img class="member-pop-photo" src="{{ $src }}" alt="" width="96" height="96">{{ end }}
       <p class="cv-kicker">{{ T "engineer_kicker" }}</p>
       <h3 class="member-pop-name" id="{{ $sid }}-name">{{ $name }}</h3>
       {{ with $role }}<p class="member-pop-role">{{ . }}</p>{{ end }}
@@ -47,8 +48,7 @@
 </article>
 {{ else }}
 <div class="member-card">
-  <img class="member-photo" src="{{ $src }}" alt="{{ $name }}"
-       onerror="this.onerror=null;this.src='{{ .placeholder }}';">
+  {{ if $path }}{{ partial "img.html" (dict "src" $path "class" "member-photo" "alt" $name "widths" (slice 200 340) "sizes" "168px" "fallback" $phPath) }}{{ else }}<img class="member-photo" src="{{ $src }}" alt="{{ $name }}" width="168" height="168" loading="lazy">{{ end }}
   <div class="mname">{{ $name }}</div>
   {{ with $role }}<div class="mrole">{{ . }}</div>{{ end }}
   {{ with .member.years }}<div class="myears">{{ . }}</div>{{ end }}

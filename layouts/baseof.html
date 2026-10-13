@@ -5,7 +5,7 @@
 </head>
 <body class="{{ if .IsHome }}is-home{{ end }}">
   {{ partial "header.html" . }}
-  <main id="home-start">
+  <main id="home-start" tabindex="-1">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

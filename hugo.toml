@@ -18,10 +18,26 @@ disableKinds = ["taxonomy", "term"]
   authorEn = "Qi Hongtuo"
   orcid = ""          # 例如 0000-0002-xxxx-xxxx，填了会写入 Person/sameAs
   scholar = ""        # Google Scholar 主页完整 URL
+  researchgate = ""   # ResearchGate 主页完整 URL（可选）
+  scopus = ""         # Scopus 作者主页完整 URL（可选）
+  # 以上四项任填一项，主页简介与页脚就会出现对应的学术主页链接
   portrait = "media/misc/qihongtuo.jpg"
   portraitFallback = "media/misc/_portrait.svg"
   teamPlaceholder = "media/team/_placeholder.svg"
   figurePlaceholder = "media/blog/_figure.svg"
+
+# 让 static/media 下的图片也能被 Hugo 处理（自动压缩为 WebP、生成多种尺寸）。
+# 照片仍然照常放进 static/media/，无需改动维护方式。
+[[module.mounts]]
+  source = "static"
+  target = "static"
+[[module.mounts]]
+  source = "static/media"
+  target = "assets/media"
+
+[imaging]
+  quality = 78
+  resampleFilter = "Lanczos"
 
 [markup.goldmark.renderer]
   unsafe = true

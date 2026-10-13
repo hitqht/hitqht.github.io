@@ -1,9 +1,6 @@
-{{ $src := .Get "src" | relURL }}
 {{ $alt := or (.Get "alt") "" }}
 {{ $cap := .Get "caption" }}
-{{ $ph := site.Params.figurePlaceholder | relURL }}
 <figure>
-  <img src="{{ $src }}" alt="{{ $alt }}"
-       onerror="this.onerror=null;this.src='{{ $ph }}';">
+  {{ partial "img.html" (dict "src" (.Get "src") "alt" $alt "widths" (slice 640 960 1400) "sizes" "(max-width: 860px) 100vw, 860px" "fallback" site.Params.figurePlaceholder) }}
   {{ with $cap }}<figcaption>{{ . }}</figcaption>{{ end }}
 </figure>

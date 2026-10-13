@@ -1,0 +1,14 @@
+{{- /* 学术主页链接：hugo.toml 中 orcid / scholar / researchgate / scopus 填了哪个就显示哪个 */ -}}
+{{- $p := site.Params -}}
+{{- $links := slice -}}
+{{- with $p.orcid }}{{ $links = $links | append (dict "name" "ORCID" "url" (printf "https://orcid.org/%s" .)) }}{{ end -}}
+{{- with $p.scholar }}{{ $links = $links | append (dict "name" "Google Scholar" "url" .) }}{{ end -}}
+{{- with $p.researchgate }}{{ $links = $links | append (dict "name" "ResearchGate" "url" .) }}{{ end -}}
+{{- with $p.scopus }}{{ $links = $links | append (dict "name" "Scopus" "url" .) }}{{ end -}}
+{{- if $links -}}
+<p class="{{ .class | default "bio-links" }}">
+  {{- range $i, $l := $links -}}
+  <a href="{{ $l.url }}" target="_blank" rel="noopener me">{{ $l.name }}</a>
+  {{- end -}}
+</p>
+{{- end -}}

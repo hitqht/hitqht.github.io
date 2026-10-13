@@ -189,13 +189,29 @@ a:hover { color: #0d4258; }
     linear-gradient(180deg, rgba(6,9,15,.12), rgba(6,9,15,.62)),
     var(--page-hero-img) right 40% / cover no-repeat;
 }
+@media (max-width: 760px) {
+  .page-hero.has-photo {
+    background:
+      linear-gradient(90deg, rgba(6,9,15,.9) 0%, rgba(6,9,15,.58) 46%, rgba(6,9,15,.32) 100%),
+      linear-gradient(180deg, rgba(6,9,15,.12), rgba(6,9,15,.62)),
+      var(--page-hero-img-sm, var(--page-hero-img)) right 40% / cover no-repeat;
+  }
+}
 .page-hero.has-photo .hero-grid { opacity: .22; }
 .page-hero.has-photo .hero-glow { opacity: .35; }
 .hero.has-photo {
   background:
     linear-gradient(90deg, rgba(6,9,15,.9) 0%, rgba(6,9,15,.55) 48%, rgba(6,9,15,.28) 100%),
     linear-gradient(180deg, rgba(6,9,15,.12), rgba(6,9,15,.7)),
-    url("/media/misc/banner.jpg") right 35% / cover no-repeat;
+    var(--hero-img) right 35% / cover no-repeat;
+}
+@media (max-width: 760px) {
+  .hero.has-photo {
+    background:
+      linear-gradient(90deg, rgba(6,9,15,.9) 0%, rgba(6,9,15,.55) 48%, rgba(6,9,15,.28) 100%),
+      linear-gradient(180deg, rgba(6,9,15,.12), rgba(6,9,15,.7)),
+      var(--hero-img-sm, var(--hero-img)) right 35% / cover no-repeat;
+  }
 }
 .hero.has-photo .hero-grid { opacity: .28; }
 .hero.has-photo .hero-glow { opacity: .4; }
@@ -1706,3 +1722,106 @@ footer a { color: var(--accent); }
   .proj-fund { margin-left: 0; align-items: flex-start; }
   .cv-creds { grid-template-columns: 1fr; }
 }
+
+
+/* ============================================================
+   优化补充：可访问性、学术主页链接、论文检索与引用
+   ============================================================ */
+.skip-link {
+  position: fixed;
+  left: 12px; top: -60px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #04110e;
+  font-weight: 600;
+  transition: top .2s var(--ease);
+}
+.skip-link:focus { top: 12px; color: #04110e; }
+main:focus { outline: none; }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent-dim);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.bio-links, .footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+.bio-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--link);
+  transition: border-color .2s, color .2s;
+}
+.bio-links a:hover { border-color: var(--accent-dim); color: var(--accent-dim); }
+.pi-profiles { justify-content: center; }
+.footer-links { margin: 0; gap: 14px; }
+.footer-updated { opacity: .6; }
+
+/* 论文检索 */
+.pub-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin: 0 0 22px;
+}
+.pub-search {
+  flex: 1 1 260px;
+  max-width: 420px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+}
+.pub-search:focus { border-color: var(--accent-dim); outline: none; box-shadow: 0 0 0 3px rgba(46,230,197,.18); }
+.pub-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.pub-filter {
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.pub-filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.pub-count { font-size: 13px; color: var(--muted); }
+.pub-none { color: var(--muted); padding: 24px 0; }
+.pub-card[hidden], .pub-year-group[hidden] { display: none; }
+
+.pub-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pub-cite {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.pub-cite:hover { color: var(--accent-dim); border-color: var(--accent-dim); }
+.pub-cite.is-done { color: var(--accent-dim); border-color: var(--accent-dim); }
+
+/* 内容较短的页面（如 404）页脚贴底 */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+body > main { flex: 1 0 auto; width: 100%; }
+body > footer { flex-shrink: 0; }

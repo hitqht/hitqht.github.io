@@ -1,7 +1,9 @@
 <footer>
   <div class="inner">
-    <span>{{ site.Params.brand }}</span>
+    <span>&copy; {{ now.Year }} {{ site.Params.brand }}</span>
     <span>{{ site.Params.affiliation }}</span>
     <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+    {{ partial "profiles.html" (dict "class" "footer-links") }}
+    {{ if site.Lastmod }}<span class="footer-updated">{{ T "last_updated" }} {{ site.Lastmod.Format "2006-01-02" }}</span>{{ end }}
   </div>
 </footer>

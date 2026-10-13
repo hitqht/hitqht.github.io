@@ -7,10 +7,7 @@
 
   <section class="home-bio reveal">
     <figure class="home-bio-photo">
-      <img class="profile-photo"
-           src="{{ site.Params.portrait | relURL }}"
-           alt="{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}"
-           onerror="this.onerror=null;this.src='{{ site.Params.portraitFallback | relURL }}';">
+      {{ partial "img.html" (dict "src" site.Params.portrait "class" "profile-photo" "alt" (cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn) "widths" (slice 240 400 600) "sizes" "(max-width: 640px) 60vw, 220px" "fallback" site.Params.portraitFallback) }}
     </figure>
     <div class="home-bio-copy">
       <h2 class="bio-name">{{ if eq site.Language.Lang "zh" }}{{ site.Params.authorZh }}{{ else }}{{ site.Params.authorEn }}{{ end }}</h2>
@@ -19,6 +16,7 @@
       {{ end }}
       <p class="bio-affil">{{ site.Params.affiliation }}</p>
       <div class="bio-text">{{ .Content }}</div>
+      {{ partial "profiles.html" (dict "class" "bio-links") }}
       {{ with site.Params.keywords }}
       <p class="bio-focus"><em>{{ T "keywords" }}</em>{{ delimit . " · " }}</p>
       {{ end }}
@@ -28,7 +26,7 @@
   <div class="tiles">
     {{ with site.GetPage "/research" }}
     <a class="tile reveal" href="{{ .RelPermalink }}">
-      <img src="{{ $researchImg | relURL }}" alt="{{ T "research" }}">
+      {{ partial "img.html" (dict "src" $researchImg "alt" (T "research") "widths" (slice 400 720) "sizes" "(max-width: 860px) 92vw, 360px") }}
       <div class="tile-body">
         <span class="tile-kicker">Lab</span>
         <div class="name">{{ T "research" }}</div>
@@ -37,7 +35,7 @@
     {{ end }}
     {{ with site.GetPage "/publications" }}
     <a class="tile reveal" href="{{ .RelPermalink }}">
-      <img src="{{ $papersImg | relURL }}" alt="{{ T "tile_pubs" }}">
+      {{ partial "img.html" (dict "src" $papersImg "alt" (T "tile_pubs") "widths" (slice 400 720) "sizes" "(max-width: 860px) 92vw, 360px") }}
       <div class="tile-body">
         <span class="tile-kicker">DOI</span>
         <div class="name">{{ T "tile_pubs" }}</div>
@@ -46,7 +44,7 @@
     {{ end }}
     {{ with site.GetPage "/team" }}
     <a class="tile reveal" href="{{ .RelPermalink }}">
-      <img src="{{ $peopleImg | relURL }}" alt="{{ T "tile_team" }}">
+      {{ partial "img.html" (dict "src" $peopleImg "alt" (T "tile_team") "widths" (slice 400 720) "sizes" "(max-width: 860px) 92vw, 360px") }}
       <div class="tile-body">
         <span class="tile-kicker">People</span>
         <div class="name">{{ T "tile_team" }}</div>
@@ -79,7 +77,8 @@
         {{ with site.GetPage "/publications" }}<a class="text-link" href="{{ .RelPermalink }}">{{ T "view_all" }} →</a>{{ end }}
       </div>
       {{ range first 3 (sort hugo.Data.publications "year" "desc") }}
-      <a class="feed-item" href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">
+      {{ $pubsURL := "" }}{{ with site.GetPage "/publications" }}{{ $pubsURL = .RelPermalink }}{{ end }}
+      <a class="feed-item" {{ with .doi }}href="https://doi.org/{{ . }}" target="_blank" rel="noopener"{{ else }}href="{{ $pubsURL }}"{{ end }}>
         <time>{{ .year }} · {{ .journal }}</time>
         <strong>{{ .title }}</strong>
       </a>

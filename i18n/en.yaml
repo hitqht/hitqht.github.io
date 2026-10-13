@@ -70,3 +70,12 @@ video_missing: Video placeholder — add an mp4 under static/media/ and refresh.
 page_404_title: Page not found
 page_404_body: This link may have moved. Try the home page or publications.
 page_404_home: Back to home
+skip_to_content: Skip to content
+last_updated: Updated
+pub_search: Search title, author or journal
+pub_count: papers
+pub_none: No matching papers.
+cite: Cite
+cite_copy: Copy citation
+bibtex_copy: Copy BibTeX
+copied: Copied

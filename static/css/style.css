@@ -497,6 +497,34 @@ code { font-size: .92em; background: var(--bg-alt); padding: 1px 6px; border-rad
   line-height: 1.35;
 }
 
+/* 研究方向：有配图时卡片顶部显示插图，色点移到标题前 */
+.research-dirs.has-art li { padding: 0 24px 26px; overflow: hidden; }
+.research-dirs.has-art li::before {
+  width: auto; height: auto;
+  aspect-ratio: 4 / 3;
+  margin: 0 -24px 22px;
+  border-radius: 0;
+  background: var(--bg-alt) var(--dir-1) center / cover no-repeat;
+}
+.research-dirs.has-art li:nth-child(2)::before { background: var(--bg-alt) var(--dir-2) center / cover no-repeat; }
+.research-dirs.has-art li:nth-child(3)::before { background: var(--bg-alt) var(--dir-3) center / cover no-repeat; }
+.research-dirs.has-art li:nth-child(4)::before { background: var(--bg-alt) var(--dir-4) center / cover no-repeat; }
+.research-dirs.has-art li:nth-child(5)::before { background: var(--bg-alt) var(--dir-5) center / cover no-repeat; }
+.research-dirs.has-art li:nth-child(6)::before { background: var(--bg-alt) var(--dir-6) center / cover no-repeat; }
+.research-dirs.has-art li strong::before {
+  content: "";
+  display: inline-block;
+  width: 10px; height: 10px;
+  margin: 0 10px 0 0;
+  border-radius: 50%;
+  vertical-align: .12em;
+  background: var(--c1);
+}
+.research-dirs.has-art li:nth-child(5n+2) strong::before { background: var(--c2); }
+.research-dirs.has-art li:nth-child(5n+3) strong::before { background: var(--c3); }
+.research-dirs.has-art li:nth-child(5n+4) strong::before { background: var(--c4); }
+.research-dirs.has-art li:nth-child(5n+5) strong::before { background: var(--c5); }
+
 /* ---------- 年份分组（论文 / 项目 / 履历 共用） ---------- */
 .pub-block, .proj-block, .cv-axis-block, .book-block, .award-block { max-width: 920px; }
 .proj-block { margin-top: 88px; }
@@ -732,7 +760,9 @@ h3.proj-title { margin: 8px 0 0; font-size: 19px; font-weight: 600; line-height:
 .book-card:nth-child(4n+2) .book-cover { background: var(--c2); }
 .book-card:nth-child(4n+3) .book-cover { background: var(--c4); }
 .book-card:nth-child(4n+4) .book-cover { background: #f9ab00; }
-.book-cover-year { font-size: 22px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1; }
+.book-cover { position: relative; overflow: hidden; }
+.book-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.book-cover-year { position: relative; font-size: 22px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1; }
 .book-body { display: flex; flex-direction: column; justify-content: center; padding: 20px 22px; min-width: 0; }
 h3.book-title { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.45; letter-spacing: -.015em; }
 .book-authors { margin: 8px 0 0; font-size: 14px; color: var(--muted); line-height: 1.6; }

@@ -8,6 +8,7 @@
 # publisher_zh  出版社中文
 # publisher_en  出版社英文
 # year          出版年份
+# cover         封面图文件名（可选），放在 static/media/books/，建议竖版 360×600
 
 - authors_zh: 齐宏拓，丁尧，刘界鹏，周绪红，刘鹏坤，李明春
   authors_en: Qi Hongtuo, Ding Yao, Liu Jiepeng, Zhou Xuhong, Liu Pengkun, Li Mingchun
@@ -16,6 +17,7 @@
   publisher_zh: 中国建筑工业出版社
   publisher_en: China Architecture & Building Press
   year: 2023
+  cover: book-1.jpg
 
 - authors_zh: 齐宏拓，刘界鹏，丁尧，周绪红，马玉锰，王涛
   authors_en: Qi Hongtuo, Liu Jiepeng, Ding Yao, Zhou Xuhong, Ma Yumeng, Wang Tao
@@ -24,6 +26,7 @@
   publisher_zh: 中国建筑工业出版社
   publisher_en: China Architecture & Building Press
   year: 2022
+  cover: book-2.jpg
 
 - authors_zh: 周绪红，刘界鹏，冯亮，伍洲，齐宏拓，李东声
   authors_en: Zhou Xuhong, Liu Jiepeng, Feng Liang, Wu Zhou, Qi Hongtuo, Li Dongsheng
@@ -32,6 +35,7 @@
   publisher_zh: 中国建筑工业出版社
   publisher_en: China Architecture & Building Press
   year: 2021
+  cover: book-3.jpg
 
 - authors_zh: 顾磊，潘亮，齐宏拓
   authors_en: Gu Lei, Pan Liang, Qi Hongtuo
@@ -40,3 +44,4 @@
   publisher_zh: 人民交通出版社
   publisher_en: China Communications Press
   year: 2012
+  cover: book-4.jpg

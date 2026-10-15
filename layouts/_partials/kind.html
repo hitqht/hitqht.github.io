@@ -114,6 +114,7 @@
       {{ $authorsH := replace $authors $self (printf "<b class=\"self-name\">%s</b>" $self) }}
       <article class="book-card">
         <div class="book-cover" aria-hidden="true">
+          {{ with .cover }}{{ if fileExists (printf "static/media/books/%s" .) }}{{ partial "img.html" (dict "src" (printf "media/books/%s" .) "alt" "" "widths" (slice 200 360) "sizes" "96px") }}{{ end }}{{ end }}
           <span class="book-cover-year">{{ .year }}</span>
         </div>
         <div class="book-body">
@@ -153,7 +154,15 @@
   </section>
 
 {{ else if eq .Params.kind "research" }}
-  <section class="research-dirs">{{ replace (replace (replace .Content "</strong>：" "</strong>") "</strong>: " "</strong>") "</strong>:" "</strong>" | safeHTML }}</section>
+  {{/* 研究方向配图：static/media/research/dir-1.jpg … dir-N.jpg，按列表顺序对应 */}}
+  {{ $vars := slice }}
+  {{ range $i := seq 8 }}
+    {{ with resources.Get (printf "media/research/dir-%d.jpg" $i) }}
+      {{ $img := .Resize "720x webp q80 Lanczos" }}
+      {{ $vars = $vars | append (printf "--dir-%d: url('%s')" $i $img.RelPermalink) }}
+    {{ end }}
+  {{ end }}
+  <section class="research-dirs{{ if $vars }} has-art{{ end }}"{{ with $vars }} style="{{ delimit . "; " | safeCSS }}"{{ end }}>{{ replace (replace (replace .Content "</strong>：" "</strong>") "</strong>: " "</strong>") "</strong>:" "</strong>" | safeHTML }}</section>
   {{ $items := hugo.Data.projects }}
   {{ $n := len $items }}
   {{ $latest := 0 }}

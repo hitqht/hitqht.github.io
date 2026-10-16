@@ -32,11 +32,34 @@
   </div>
 </nav>
 {{ if .IsHome }}
-<header class="hero" id="hero">
+{{/* 姓名区样式：hugo.toml 中 params.heroStyle = "inline"（一行署名）/ "card"（名片）/ "byline"（标语在上、署名在下） */}}
+{{ $style := site.Params.heroStyle | default "inline" }}
+{{ $id := "" }}
+{{ $avatar := "" }}
+{{ if in (slice "card" "byline") $style }}
+  {{ $avatar = partial "img.html" (dict "src" site.Params.portrait "class" "hero-avatar" "alt" "" "widths" (slice 160) "sizes" "64px" "eager" true "fallback" site.Params.portraitFallback) }}
+{{ end }}
+<header class="hero hero--{{ $style }}" id="hero">
   <div class="hero-inner">
-    <h1 class="brand">{{ $author }}</h1>
-    <p class="hero-role">{{ T "hero_role" }}</p>
+    {{ if ne $style "byline" }}
+    <div class="hero-id">
+      {{ $avatar }}
+      <div class="hero-id-text">
+        <h1 class="brand">{{ $author }}</h1>
+        <p class="hero-role">{{ T "hero_role" }}</p>
+      </div>
+    </div>
     <p class="lead">{{ T "hero_lead" }}</p>
+    {{ else }}
+    <p class="lead">{{ T "hero_lead" }}</p>
+    <div class="hero-id">
+      {{ $avatar }}
+      <div class="hero-id-text">
+        <h1 class="brand">{{ $author }}</h1>
+        <p class="hero-role">{{ T "hero_role" }}</p>
+      </div>
+    </div>
+    {{ end }}
     {{ with site.Params.keywords }}
     <ul class="chips" aria-label="{{ T "keywords" }}">
       {{ range $i, $k := . }}<li class="chip-{{ add (mod $i 5) 1 }}">{{ $k }}</li>{{ end }}

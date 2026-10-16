@@ -202,18 +202,47 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   background: var(--bg);
 }
 .hero-inner { max-width: 860px; margin: 0 auto; }
+/* 姓名区：姓名与单位、职务同一级别，三种样式见 hugo.toml 的 heroStyle */
+.hero-id { display: flex; justify-content: center; align-items: center; }
 .hero .brand {
   margin: 0;
-  font-size: clamp(52px, 9vw, 96px);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -.04em;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink);
 }
-.hero-role {
-  margin: 14px 0 0;
-  font-size: clamp(16px, 1.8vw, 19px);
-  color: var(--muted);
+.hero-role { margin: 0; font-size: 19px; line-height: 1.4; color: var(--muted); }
+.hero-avatar { display: block; object-fit: cover; object-position: center top; border-radius: 50%; background: var(--bg-alt); flex-shrink: 0; }
+
+/* A 一行署名：齐宏拓 | 单位 · 职务 */
+.hero--inline .hero-id-text { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 4px 0; }
+.hero--inline .brand { padding-right: 14px; margin-right: 14px; border-right: 1px solid var(--line); }
+
+/* B 名片：小头像 + 两行文字 */
+.hero--card .hero-id { gap: 16px; }
+.hero--card .hero-id-text { text-align: left; }
+.hero--card .hero-avatar { width: 64px; height: 64px; }
+.hero--card .brand { font-size: 20px; }
+.hero--card .hero-role { font-size: 15px; margin-top: 2px; }
+.hero--card .lead { margin-top: 30px; }
+
+/* C 标语在上、署名在下（类似文章作者行） */
+.hero--byline .lead { margin-top: 0; }
+.hero--byline .hero-id { gap: 12px; margin-top: 22px; }
+.hero--byline .hero-avatar { width: 36px; height: 36px; }
+.hero--byline .hero-id-text { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 2px 0; }
+.hero--byline .brand, .hero--byline .hero-role { font-size: 16px; }
+.hero--byline .brand::after { content: "·"; margin: 0 8px; color: var(--faint); font-weight: 400; }
+@media (max-width: 640px) {
+  .hero--inline .hero-id-text { flex-direction: column; align-items: center; }
+  .hero--inline .brand { padding: 0; margin: 0; border: 0; }
+  .hero--inline .hero-role { font-size: 15px; margin-top: 2px; }
+  .hero--byline .hero-id-text { flex-direction: column; align-items: flex-start; text-align: left; }
+  .hero--byline .brand::after { content: none; }
+  .hero--byline .hero-role { font-size: 14px; }
 }
+
 .hero .lead {
   margin: 22px auto 0;
   max-width: 24em;

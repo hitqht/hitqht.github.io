@@ -21,6 +21,7 @@ disableKinds = ["taxonomy", "term"]
   researchgate = ""   # ResearchGate 主页完整 URL（可选）
   scopus = ""         # Scopus 作者主页完整 URL（可选）
   # 以上四项任填一项，主页简介与页脚就会出现对应的学术主页链接
+  heroStyle = "inline"  # 首页姓名区样式：inline 一行署名 / card 名片 / byline 署名在标语下方
   portrait = "media/misc/qihongtuo.jpg"
   portraitFallback = "media/misc/_portrait.svg"
   teamPlaceholder = "media/team/_placeholder.svg"

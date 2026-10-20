@@ -1,4 +1,3 @@
-{{ $hasPhoto := fileExists "static/media/misc/banner.jpg" }}
 {{ $author := cond (eq site.Language.Lang "zh") site.Params.authorZh site.Params.authorEn }}
 <a class="skip-link" href="#home-start">{{ T "skip_to_content" }}</a>
 <div class="read-progress" id="read-progress" hidden></div>
@@ -32,28 +31,55 @@
   </div>
 </nav>
 {{ if .IsHome }}
+{{ $lang := site.Language.Lang }}
 <header class="hero" id="hero">
   <div class="hero-inner">
-    <h1 class="brand">{{ $author }}</h1>
-    <p class="hero-role">{{ T "hero_role" }}</p>
-    <p class="lead">{{ T "hero_lead" }}</p>
-    {{ with site.Params.keywords }}
-    <ul class="chips" aria-label="{{ T "keywords" }}">
-      {{ range $i, $k := . }}<li class="chip-{{ add (mod $i 5) 1 }}">{{ $k }}</li>{{ end }}
-    </ul>
-    {{ end }}
-    <div class="hero-cta">
-      {{ with site.GetPage "/publications" }}
-      <a class="btn btn-primary" href="{{ .RelPermalink }}">{{ T "hero_cta_papers" }}</a>
-      {{ end }}
-      {{ with site.GetPage "/research" }}
-      <a class="btn btn-ghost" href="{{ .RelPermalink }}">{{ T "hero_cta_research" }}</a>
+    <p class="hero-kicker">
+      <span class="hero-kicker-label">{{ T "hero_kicker_full" }}</span>
+      <span>{{ T "hero_affil" }}</span>
+    </p>
+    <div class="hero-main">
+      <div class="hero-copy">
+        <h1 class="hero-name">
+          <span class="hero-name-zh" lang="zh-CN">{{ site.Params.authorZh }}</span>
+          <span class="hero-name-sub">
+            <span class="hero-name-en" lang="en">{{ site.Params.authorEn }}</span>
+            <span class="hero-name-tag">{{ T "hero_name_tag" }}</span>
+          </span>
+        </h1>
+        {{ with .Params.roles }}<p class="hero-role">{{ delimit . " · " }}</p>{{ end }}
+        <p class="lead">{{ T "hero_lead_html" | safeHTML }}</p>
+      </div>
+      {{ with hugo.Data.highlights }}
+      <dl class="hero-stats">
+        {{ range . }}
+        <div class="hero-stat">
+          <dt>{{ cond (eq $lang "zh") .label_zh .label_en }}</dt>
+          <dd><span class="hero-stat-num">{{ .num }}</span>{{ if eq $lang "zh" }}{{ with .unit_zh }}<span class="hero-stat-unit">{{ . }}</span>{{ end }}{{ end }}</dd>
+        </div>
+        {{ end }}
+      </dl>
       {{ end }}
     </div>
+    <div class="hero-bar">
+      {{ with site.Params.keywords }}
+      <ul class="chips" aria-label="{{ T "keywords" }}">
+        {{ range $i, $k := . }}<li class="chip-{{ add (mod $i 5) 1 }}">{{ $k }}</li>{{ end }}
+      </ul>
+      {{ end }}
+      <div class="hero-cta">
+        {{ with site.GetPage "/publications" }}
+        <a class="btn btn-primary" href="{{ .RelPermalink }}">{{ T "hero_cta_papers" }}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        {{ end }}
+        {{ with site.GetPage "/research" }}
+        <a class="btn btn-ghost" href="{{ .RelPermalink }}">{{ T "hero_cta_research" }}</a>
+        {{ end }}
+      </div>
+    </div>
   </div>
-  {{ if $hasPhoto }}
-  <figure class="hero-art">
-    {{ partial "img.html" (dict "src" "media/misc/banner.jpg" "alt" "" "widths" (slice 800 1400 2000) "sizes" "(max-width: 1180px) 100vw, 1140px" "eager" true) }}
+  {{ if fileExists "static/media/misc/photo-wall.jpg" }}
+  <figure class="hero-wall">
+    {{ partial "img.html" (dict "src" "media/misc/photo-wall.jpg" "alt" (T "photo_wall_alt") "widths" (slice 960 1600 2400 3240) "sizes" "100vw" "eager" true) }}
   </figure>
   {{ end }}
 </header>

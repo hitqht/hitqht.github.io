@@ -1,0 +1,24 @@
+# 首页首屏右侧的数据栏（data/highlights.yaml）
+# 每条一格，按顺序 2×2 排列。数字更新时只改 num。
+#
+# num        大号数字
+# unit_zh    中文单位（英文页不显示单位，可留空）
+# label_zh   中文说明
+# label_en   英文说明
+
+- num: "4"
+  unit_zh: 项
+  label_zh: 主持国家级科研项目
+  label_en: National-level projects as PI
+- num: "25"
+  unit_zh: 篇
+  label_zh: 近三年第一/通讯作者 SCI 论文
+  label_en: SCI papers as first/corresponding author, past 3 years
+- num: "3+1"
+  unit_zh: 部
+  label_zh: 学术专著与教材
+  label_en: Monographs and textbook
+- num: "2"
+  unit_zh: 项
+  label_zh: 省部级科技奖励
+  label_en: Provincial/ministerial S&T awards

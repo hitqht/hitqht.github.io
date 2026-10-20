@@ -53,7 +53,14 @@
 <meta name="twitter:title" content="{{ if .IsHome }}{{ $pageTitle }}{{ else }}{{ .Title }}{{ end }}">
 <meta name="twitter:description" content="{{ $desc }}">
 <meta name="twitter:image" content="{{ $ogImg }}">
-{{/* 只用系统字体（苹方 / SF / 微软雅黑），不依赖外部字体服务，国内访问更快 */}}
+{{/* 正文只用系统字体（苹方 / SF / 微软雅黑）。
+     唯一例外：首页姓名用毛笔字体 Ma Shan Zheng，只按姓名三个字取子集（几 KB），异步加载；
+     字体服务访问不到时自动退回系统的行楷 / 楷体，不影响页面显示。 */}}
+{{ if .IsHome }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap&text={{ site.Params.authorZh }}">
+{{ end }}
 <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 <script src="{{ "js/site.js" | relURL }}" defer></script>
 

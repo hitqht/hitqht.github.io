@@ -261,7 +261,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   letter-spacing: -.025em;
   color: var(--ink);
 }
-.hero .lead em { font-style: normal; color: var(--accent); }
+.hero .lead em { font-style: normal; color: var(--accent); white-space: nowrap; }
 
 .hero-stats {
   flex: 0 1 380px; min-width: 260px;
@@ -269,12 +269,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   margin: 0;
 }
 .hero-stat {
-  display: flex; flex-direction: column-reverse; gap: 6px;
+  display: flex; flex-direction: column; justify-content: flex-start; gap: 6px;
   padding: 18px 0 20px;
   border-top: 1px solid var(--ink);
 }
 .hero-stat dt { font-size: 13px; line-height: 1.45; color: var(--muted); }
-.hero-stat dd { margin: 0; display: flex; align-items: baseline; gap: 4px; color: var(--ink); }
+.hero-stat dd { order: -1; margin: 0; display: flex; align-items: baseline; gap: 4px; color: var(--ink); }
 .hero-stat-num { font-size: 52px; font-weight: 700; line-height: 1; letter-spacing: -.04em; }
 .hero-stat-unit { font-size: 15px; font-weight: 600; }
 

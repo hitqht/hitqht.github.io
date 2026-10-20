@@ -61,8 +61,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap&text={{ site.Params.authorZh }}">
 {{ end }}
-<link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
-<script src="{{ "js/site.js" | relURL }}" defer></script>
+{{/* 样式与脚本按文件内容加版本号，改动后浏览器会立即取新文件，不会沿用旧缓存 */}}
+{{ $cssV := substr (readFile "static/css/style.css" | md5) 0 10 }}
+{{ $jsV := substr (readFile "static/js/site.js" | md5) 0 10 }}
+<link rel="stylesheet" href="{{ "css/style.css" | relURL }}?v={{ $cssV }}">
+<script src="{{ "js/site.js" | relURL }}?v={{ $jsV }}" defer></script>
 
 {{ if .IsHome }}
 {{ $job := cond (eq site.Language.Lang "zh") "特聘研究员" "Distinguished Research Fellow" }}
